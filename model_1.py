@@ -40,8 +40,8 @@ def wrangling_cervical_data(dataset_path: str, columns_to_drop: List[str]) -> pd
 
 def preprocess_target_column(data: pd.DataFrame,
                              target_column: str,
-                             test_size: float = 0.2,
-                             random_state: int = 42) -> Tuple:
+                             test_size: float = 0.3,
+                             random_state: int = 4) -> Tuple:
     """
     Preprocesses the dataset by splitting it into feature and target variables,
     converting them to the appropriate data types, applying feature scaling,
@@ -114,11 +114,37 @@ cleaned_data = wrangling_cervical_data(DATASET_PATH, COLUMNS_TO_DROP)
 X_train, X_test, y_train, y_test = preprocess_target_column(cleaned_data, 'Biopsy')
 
 # Train the model
-xgb = xgb.XGBClassifier(learning_rate=0.1, max_depth=5, n_estimators=20)
+xgb = xgb.XGBClassifier(learning_rate=0.1, max_depth=10, n_estimators=20)
 xgb.fit(X_train, y_train)
 
-metrics = calculate_metrics(xgb, X_train, y_train, X_test, y_test)
+# metrics = calculate_metrics(xgb, X_train, y_train, X_test, y_test)
+#
+# # print element from dictionary
+# for k, v in metrics.items():
+#     print('\n', k, '\n', v)
 
-# print element from dictionary
-for k, v in metrics.items():
-    print('\n', k, '\n', v)
+
+def predict_cervical_cancer_risk(model, data) -> np.ndarray:
+    """
+    Predicts the risk of cervical cancer for a single case using a trained model.
+
+    Parameters:
+        - model: The trained cervical cancer risk prediction model.
+        - data: The data of a single case for prediction.
+
+    Returns:
+        - prediction: The predicted risk of cervical cancer for the given case.
+    """
+    data = np.array(data).astype('float32').reshape(1, -1)
+    prediction = model.predict(data)
+
+    return prediction[0]
+
+
+# Load the trained model
+model = xgb
+
+# Example usage: Predicting the risk of cervical cancer for a single case
+single_case_data = []  # Example data for prediction
+predicted_risk = predict_cervical_cancer_risk(model, single_case_data)
+print(f"Predicted risk of cervical cancer: {predicted_risk}")
