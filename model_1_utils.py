@@ -38,6 +38,7 @@ from sklearn.metrics import classification_report
 import numpy as np
 import pandas as pd
 import xgboost as xgb
+import joblib as jl
 
 
 def wrangling_cervical_data(dataset_path: str, columns_to_drop: List[str]) -> pd.DataFrame:
@@ -170,4 +171,5 @@ def train_xgboost_model(x__train: np.ndarray, y__train: np.ndarray) -> xgb.XGBCl
     """
     xgb_model = xgb.XGBClassifier(learning_rate=0.1, max_depth=20, n_estimators=100)
     xgb_model.fit(x__train, y__train)
-    return xgb_model
+
+    jl.dump(xgb_model, 'model_1.pk1')
