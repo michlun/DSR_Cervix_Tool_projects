@@ -13,9 +13,10 @@ COLUMNS_TO_DROP = ['STDs: Time since last diagnosis', 'STDs: Time since first di
 
 # Wrangle the dataset
 cleaned_data = m1u.wrangling_cervical_data(DATASET_PATH, COLUMNS_TO_DROP)
+target_column = ['Biopsy']
 
 # Preprocess the target column and split the data
-X_train, X_test, y_train, y_test = m1u.preprocess_target_column(cleaned_data, 'Biopsy')
+X_train, X_test, y_train, y_test = m1u.preprocess_target_column(cleaned_data, target_column)
 
 # Train the model and save the model
 m1u.train_xgboost_model(X_train, y_train)
