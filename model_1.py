@@ -1,41 +1,17 @@
 """
-Import libraries
+Cervical Cancer Prediction
+
+This module is used to predict the risk of cervical cancer based on input data.
 """
-from typing import List
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-DATASET_PATH = 'cervical_cancer_dataset.csv'
-COLUMNS_TO_DROP = ['STDs: Time since last diagnosis', 'STDs: Time since first diagnosis']
+import model_1_utils as m1u
+import joblib as jl
 
+# Load the data
+load_model = jl.load('model_1.pk1')
 
-def preprocess_cervical_data(dataset_path: str, columns_to_drop: List[str]) -> pd.DataFrame:
-    """
-    Preprocesses the cervical cancer dataset by performing the following steps:
+# Example usage: Predicting the risk of cervical cancer for a single case
+single_case_data = [54.0, 3.0, 27.0, 6.0, 34.0, 0.0, 7.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0]
 
-    1. Imports the dataset from the specified CSV file.
-    2. Replaces '?' values with NaN.
-    3. Drops the specified columns from the dataset.
-    4. Converts object type columns to numeric type.
-    5. Replaces null values with column means.
-
-    Parameters:
-        - dataset_path (str): The file path of the cervical cancer dataset in CSV format.
-        - columns_to_drop (List[str]): A list of column names to be dropped from the dataset.
-    Returns:
-        pd.DataFrame: The preprocessed cervical cancer dataset.
-    """
-
-    cervical_data = pd.read_csv(dataset_path)
-    cervical_data = cervical_data.replace('?', np.nan)
-    cervical_data = cervical_data.drop(columns_to_drop, axis=1)
-    cervical_data = cervical_data.apply(pd.to_numeric)
-    cervical_data = cervical_data.fillna(cervical_data.mean())
-
-    return cervical_data
-
-
-preprocessed_data = preprocess_cervical_data(DATASET_PATH, COLUMNS_TO_DROP)
-
+predicted_risk = m1u.predict_cervical_cancer_risk(load_model, single_case_data)
