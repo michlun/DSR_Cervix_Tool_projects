@@ -1,0 +1,10 @@
+body {
+  background: linear-gradient(to right, #000000, #363636);
+}
+
+.title {
+  text-align: center;
+  background: linear-gradient(to right, #7e85ff, #c882e6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
