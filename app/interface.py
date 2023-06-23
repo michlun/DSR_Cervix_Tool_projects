@@ -1,10 +1,12 @@
 from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
+app.static_folder = 'static'
 
 
 @app.route('/', methods=['GET'])
 def index():
+    css_url = url_for('static', filename='style.css')
     return render_template('./index.html')
 
 
