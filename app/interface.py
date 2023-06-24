@@ -5,9 +5,14 @@ app.static_folder = 'static'
 
 
 @app.route('/', methods=['GET'])
-def index():
+def get_app():
     css_url = url_for('static', filename='style.css')
     return render_template('./index.html')
+
+
+@app.route('/index.html')
+def index():
+    return render_template('index.html')
 
 
 @app.route('/model_1.html')
