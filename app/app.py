@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, send_from_directory, request
+import model_1_utils as m1u
 import os
 
 app = Flask(__name__)
@@ -27,16 +28,21 @@ def model_2():
 
 
 @app.route('/prediction.html')
-def prediction():
+def prediction_page():
     return render_template('prediction.html')
 
 
-@app.route('/save', methods=['POST'])
-def save_data():
-    input_data = {}
-    for key in request.form:
-        input_data[key] = request.form[key]
-    return input_data
+@app.route('/predictdata', methods=['POST', 'GET'])
+def predict_data():
+    if request.method == 'GET':
+        return render_template('model_1.html')
+    else:
+        input_data = {}
+        for key in request.form:
+            input_data[key] = request.form[key]
+        data = m1u.get_input_values(input_data)
+        prediction = m1u.predict_cervical_cancer_risk(data)
+        return prediction
 
 
 if __name__ == '__main__':

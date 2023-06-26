@@ -166,23 +166,23 @@
                 <input type="number" id="STDs (number)" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">HPV </label>
-                <input type="number" id="HPV" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:HPV" value="0" oninput="formatInputValue(this)">
             </div>
         </div>
 
         <div class="input-column">
             <div class="input-group">
                 <label class="label">Condylomatosis </label>
-                <input type="number" id="Condylomatosis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:condylomatosis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Number of diagnosis </label>
-                <input type="number" id="Number of diagnosis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs: Number of diagnosis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Dx:Cancer </label>
                 <input type="number" id="Dx:Cancer" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Hepatitis B </label>
-                <input type="number" id="Hepatitis B" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:Hepatitis B" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Dx:CIN B </label>
                 <input type="number" id="Dx:CIN" value="0" oninput="formatInputValue(this)">
@@ -191,16 +191,16 @@
         <div class="input-column">
             <div class="input-group">
                 <label class="label">Cervical condylomatosis </label>
-                <input type="number" id="Cervical condylomatosis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:cervical condylomatosis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Vaginal condylomatosis </label>
-                <input type="number" id="Vaginal condylomatosis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:vaginal condylomatosis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Vulvo-perineal condylomatosis </label>
-                <input type="number" id="Vulvo-perineal condylomatosis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:vulvo-perineal condylomatosis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Syphilis </label>
-                <input type="number" id="Syphilis" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:syphilis" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Dx:HPV </label>
                 <input type="number" id="Dx:HPV" value="0" oninput="formatInputValue(this)">
@@ -209,19 +209,19 @@
         <div class="input-column">
             <div class="input-group">
                 <label class="label">Pelvic inflammatory disease </label>
-                <input type="number" id="Pelvic inflammatory disease" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:pelvic inflammatory disease" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Genital herpes </label>
-                <input type="number" id="Genital herpes" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:genital herpes" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">Molluscum contagiosum </label>
-                <input type="number" id="Molluscum contagiosum" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:molluscum contagiosum" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">AIDS </label>
-                <input type="number" id="AIDS" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:AIDS" value="0" oninput="formatInputValue(this)">
 
                 <label class="label">HIV </label>
-                <input type="number" id="HIV" value="0" oninput="formatInputValue(this)">
+                <input type="number" id="STDs:HIV" value="0" oninput="formatInputValue(this)">
             </div>
         </div>
 
@@ -252,12 +252,15 @@
             var formData = new FormData();
             var inputs = document.getElementsByTagName('input');
             for (var i = 0; i < inputs.length; i++) {
-                formatInputValue(inputs[i]);
-                formData.append(inputs[i].id, inputs[i].value);
-            }
+                if (inputs[i].value == 0 || inputs[i].value == '') {
+                    formData.append(inputs[i].id, 0);
+                } else {
+                    formData.append(inputs[i].id, inputs[i].value);
+                }
+        }
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/save', true);
+            xhr.open('POST', '/predictdata', true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     window.location.href = '/prediction.html';
