@@ -1,11 +1,11 @@
 """
 This module provides utility functions for the preprocessing, training, and evaluation
-of a cervical cancer prediction model using XGBoost.
+of a cervical cancer prediction model.
 
 It includes the following functions:
 
 - wrangling_cervical_data(dataset_path: str, columns_to_drop: List[str]) -> pd.DataFrame:
-    Preprocesses the cervical cancer dataset by replacing missing values, dropping columns,
+    Preprocesses the cervical cancer dataset by replacing missing values, setting columns,
     converting data types, and filling null values with column means.
 
 - preprocess_target_column(data: pd.DataFrame, target_column: str, test_size: float = 0.3,
@@ -21,11 +21,11 @@ It includes the following functions:
 - predict_cervical_cancer_risk(model, data) -> np.ndarray:
     Predicts the risk of cervical cancer for a single case using a trained model.
 
-- train_xgboost_model(x__train: np.ndarray, y__train: np.ndarray) -> xgb.XGBClassifier:
-    Trains an XGBoost classifier model using the provided training data.
+- train_model(x__train: np.ndarray, y__train: np.ndarray):
+    Trains a model using the provided training data.
 
-The module imports necessary libraries and packages such as pandas, numpy, scikit-learn,
-and xgboost. It provides type hints for the function parameters and returns, ensuring
+The module imports necessary libraries and packages.
+It provides type hints for the function parameters and returns, ensuring
 clear understanding of the expected inputs and outputs.
 
 Author: [Francesco Cocciro]
@@ -48,13 +48,13 @@ def wrangling_cervical_data(dataset_path: str, selected_features: List[str]) -> 
 
     1. Imports the dataset from the specified CSV file.
     2. Replaces '?' values with NaN.
-    3. Drops the specified columns from the dataset.
+    3. Set the selected columns from the dataset.
     4. Converts object type columns to numeric type.
     5. Replaces null values with column means.
 
     Parameters:
         - dataset_path (str): The file path of the cervical cancer dataset in CSV format.
-        - columns_to_drop (List[str]): A list of column names to be dropped from the dataset.
+        - selected_features (List[str]): The selected columns from the dataset.
     Returns:
         pd.DataFrame: The preprocessed cervical cancer dataset.
     """
@@ -69,7 +69,6 @@ def wrangling_cervical_data(dataset_path: str, selected_features: List[str]) -> 
 
 
 def preprocess_target_column(data: pd.DataFrame,
-                             target_column: str,
                              test_size: float = 0.2,
                              random_state: int = 42) -> Tuple:
     """
@@ -79,7 +78,6 @@ def preprocess_target_column(data: pd.DataFrame,
 
     Args:
         data (pd.DataFrame): The input dataset.
-        target_column (str): The name of the target column.
         test_size (float): The proportion of the dataset to include in the test split.
             Default is 0.2.
         random_state (int): The seed used by the random number generator. Default is 42.
@@ -88,8 +86,11 @@ def preprocess_target_column(data: pd.DataFrame,
         tuple: A tuple containing the preprocessed feature and target splits of the dataset.
                The tuple elements are: (X_train, X_val, X_test, y_train, y_val, y_test).
     """
-    features = data.drop(target_column, axis=1)
-    target = data[target_column]
+    data['Target'] = np.logical_or.reduce([
+        data['Citology'], data['Hinselmann'], data['Schiller'], data['Biopsy']]).astype(int)
+
+    features = data.drop(['Target', 'Citology' ,'Hinselmann', 'Schiller', 'Biopsy'], axis=1)
+    target = data['Target']
 
     features = np.array(features).astype('float32')
     target = np.array(target).astype('float32')
@@ -108,7 +109,7 @@ def calculate_metrics(model, x__train, y__train, x__test, y__test) -> dict:
     Calculates the evaluation metrics for an XGBoost model.
 
     Parameters:
-        - xgb: The trained XGBoost model instance.
+        - model: The trained model instance.
         - X_train: The training set features.
         - y_train: The training set target variable.
         - X_test: The test set features.
@@ -139,16 +140,16 @@ def calculate_metrics(model, x__train, y__train, x__test, y__test) -> dict:
 
 def predict_cervical_cancer_risk(data) -> np.ndarray:
     """
-    Predicts the risk of cervical cancer for a single case using a trained model.
+    Predicts the risk of cervical cancer for a single case using trained model.
 
     Parameters:
-        - model: The trained cervical cancer risk prediction model.
         - data: The data of a single case for prediction.
 
     Returns:
         - prediction: The predicted risk of cervical cancer for the given case.
     """
     try:
+        # load the model
         model = jl.load('model_1.pk1')
         data = np.array(data).astype('float32').reshape(1, -1)
         prediction = model.predict(data)
@@ -165,14 +166,14 @@ def predict_cervical_cancer_risk(data) -> np.ndarray:
 
 def train_model(x__train: np.ndarray, y__train: np.ndarray):
     """
-    Trains an XGBoost classifier model using the provided training data.
+    Trains a model using the provided training data.
 
     Parameters:
         - X_train (np.ndarray): The feature array of the training data.
         - y_train (np.ndarray): The target array of the training data.
 
     Returns:
-        xgb.XGBClassifier: The trained XGBoost classifier model.
+        The trained model.
     """
     svm = SVC(kernel='linear', class_weight='balanced', random_state=42)
     svm.fit(x__train, y__train)
@@ -181,6 +182,15 @@ def train_model(x__train: np.ndarray, y__train: np.ndarray):
 
 
 def get_input_values(input_dict):
+    """
+       Extracts and returns the input values from the given input dictionary based on the selected features.
+
+       Args:
+           input_dict (dict): A dictionary containing the input values, where the keys represent the features.
+
+       Returns:
+           list: A list of input values extracted from the input dictionary, in the order of the selected features.
+       """
     selected_features = ['Age',
                          'First sexual intercourse',
                          'Num of pregnancies',

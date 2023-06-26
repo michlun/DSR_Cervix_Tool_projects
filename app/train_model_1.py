@@ -1,6 +1,6 @@
 """
 This module utilizes the functions from `module_utils` to preprocess the cervical cancer dataset,
-train an XGBoost classifier, and save the model.
+train and save the model.
 """
 
 
@@ -33,7 +33,8 @@ SELECTED_FEATURES = [
     'STDs: Number of diagnosis',
     'Dx:Cancer',
     'Dx:CIN',
-    'Dx:HPV'
+    'Dx:HPV',
+    'Citology', 'Hinselmann', 'Schiller', 'Biopsy'
 ]
 
 # Wrangle the dataset
