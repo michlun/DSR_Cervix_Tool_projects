@@ -30,7 +30,7 @@ app = Flask(__name__)
 app.static_folder = 'static'
 
 
-@app.route('/')
+@app.route('/index.html')
 def get_app():
     """
     Renders the main application page.
@@ -40,17 +40,6 @@ def get_app():
     """
     css_url = url_for('static', filename='style.css')
     return render_template('./index.html')
-
-
-@app.route('/index.html')
-def back_home():
-    """
-    Renders the home page.
-
-    Returns:
-        str: The HTML content of the rendered page.
-    """
-    return render_template('index.html')
 
 
 @app.route('/model_1.html')
@@ -101,14 +90,15 @@ def predict_data():
         str: The prediction result or the HTML content of the Model 1 page.
     """
     if request.method == 'GET':
-        return render_template('model_1.html')
+        return render_template('/model_1.html')
     else:
         input_data = {}
         for key in request.form:
             input_data[key] = request.form[key]
         data = m1u.get_input_values(input_data)
         prediction = m1u.predict_cervical_cancer_risk(data)
-        return prediction
+        text_prediction = f"The prediction is {prediction}"
+        return render_template('prediction.html', prediction=text_prediction)
 
 
 if __name__ == '__main__':
