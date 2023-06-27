@@ -138,7 +138,7 @@ def calculate_metrics(model, x__train, y__train, x__test, y__test) -> dict:
         print('\n', key, '\n', value)
 
 
-def predict_cervical_cancer_risk(data) -> np.ndarray:
+def predict_cervical_cancer_risk(data) -> Tuple:
     """
     Predicts the risk of cervical cancer for a single case using trained model.
 
@@ -155,11 +155,12 @@ def predict_cervical_cancer_risk(data) -> np.ndarray:
         prediction = model.predict(data)
 
         if prediction[0] == 0:
-            print('The predicted risk of cervical cancer is low.')
+            prediction_str = 'The predicted risk of cervical cancer is low.'
+            return prediction[0], prediction_str
         else:
-            print('The predicted risk of cervical cancer is high.')
+            prediction_str = 'The predicted risk of cervical cancer is high.'
+            return prediction[0], prediction_str
 
-        return prediction[0]
     except Exception as e:
         print(sys.exc_info())
 
