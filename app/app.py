@@ -42,7 +42,7 @@ def get_app():
     return render_template('./index.html')
 
 
-@app.route('/model_1')
+@app.route('/model-1')
 def model_1():
     """
     Renders the Model 1 page.
@@ -64,7 +64,7 @@ def info_page():
     return render_template('contact.html')
 
 
-@app.route('/model_2')
+@app.route('/model-2')
 def model_2():
     """
     Renders the Model 2 page.
@@ -75,18 +75,7 @@ def model_2():
     return render_template('model_2.html')
 
 
-@app.route('/prediction')
-def prediction_page():
-    """
-    Renders the prediction page.
-
-    Returns:
-        str: The HTML content of the rendered page.
-    """
-    return render_template('prediction.html')
-
-
-@app.route('/predictdata', methods=['POST', 'GET'])
+@app.route('/prediction', methods=['POST', 'GET'])
 def predict_data():
     """
     Handles the prediction data.
@@ -100,9 +89,8 @@ def predict_data():
     Returns:
         str: The prediction result or the HTML content of the Model 1 page.
     """
-    if request.method == 'GET':
-        return render_template('/model_1.html')
-    else:
+
+    if request.method == 'POST':
         input_data = {}
         for key in request.form:
             input_data[key] = request.form[key]
@@ -110,6 +98,8 @@ def predict_data():
         prediction = m1u.predict_cervical_cancer_risk(data)
         text_prediction = f"The prediction is {prediction}"
         return render_template('prediction.html', prediction=text_prediction)
+    else:
+        return render_template('/prediction.html')
 
 
 if __name__ == '__main__':
