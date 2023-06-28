@@ -24,9 +24,15 @@
             {% endblock %}
 
             {% block icon %}
-            <a href="/infos.html">
-                <img class="question-mark-icon" src="{{ url_for('static', filename='/icon/question-mark.svg.png') }}">
+            <div class="icon-container">
+            <a href="/contact.html">
+                <img class="icon" src="{{ url_for('static', filename='/icon/contact.png') }}">
             </a>
+
+            <a >
+                <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
+            </a>
+            </div>
             {% endblock %}
         </div>
     </div>

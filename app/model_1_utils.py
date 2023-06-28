@@ -176,7 +176,8 @@ def train_model(x__train: np.ndarray, y__train: np.ndarray):
     Returns:
         The trained model.
     """
-    svm = SVC(kernel='linear', class_weight='balanced', random_state=42)
+    # Add class_weight='balanced' to the model to have more weight on the minority class
+    svm = SVC(kernel='linear', random_state=42)
     svm.fit(x__train, y__train)
 
     jl.dump(svm, 'model_1.pk1')

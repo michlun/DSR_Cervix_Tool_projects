@@ -53,7 +53,7 @@ def model_1():
     return render_template('model_1.html')
 
 
-@app.route('/infos.html')
+@app.route('/contact.html')
 def info_page():
     """
     Renders the Infos page.
@@ -61,7 +61,7 @@ def info_page():
     Returns:
         str: The HTML content of the rendered page.
     """
-    return render_template('infos.html')
+    return render_template('contact.html')
 
 
 @app.route('/model_2.html')
