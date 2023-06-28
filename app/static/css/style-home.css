@@ -52,10 +52,15 @@ body {
     padding: 30px;
 }
 
-.question-mark-icon {
-    position: absolute;
+.icon-container{
+    display: inline-block;
+    position: relative;
     left: 5vh;
     bottom: 2vh;
+}
+
+.icon {
+    padding= 30px;
 }
 
 .button-home {
