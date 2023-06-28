@@ -25,7 +25,7 @@ function storeData() {
     xhr.open('POST', '/predictdata', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            window.location.href = '/prediction.html';
+            window.location.href = '/prediction';
         } else {
             alert('An error is occurred');
         }
