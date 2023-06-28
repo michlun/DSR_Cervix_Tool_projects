@@ -7,17 +7,30 @@ from tf_keras_vis.gradcam import Gradcam
 from tf_keras_vis.saliency import Saliency
 from matplotlib import cm
 
-def predict_image_class(model, image, type=None, heatmap=False, saliency=False):
+def class_recall(y_true, y_pred, c):
+     y_true = K.flatten(y_true)
+     pred_c = K.cast(K.equal(K.argmax(y_pred, axis=-1), c), K.floatx())
+     true_c = K.cast(K.equal(y_true, c), K.floatx())
+     true_positives = K.sum(pred_c * true_c)
+     possible_postives = K.sum(true_c)
+     return true_positives / (possible_postives + K.epsilon())
+
+def class2_recall(y_true, y_pred):
+        return class_recall(y_true, y_pred, 2)
+
+def predict_image_class(model, image, image_type=None, heatmap=False, saliency=False):
     
-    if type == "whole":
+    if image_type == "Whole slide":
         resolution = (192,256)
         if image.size != (256,192):
             image = image.resize((256,192), resample=Image.Resampling.BILINEAR)
-    if type == "cell":
+    if image_type == "Single cell":
         resolution = (80,80)
+        if image.size != (80,80):
+             image = image.resize((80,80), resample=Image.Resampling.BILINEAR)
     
     class_names = ['Dyskeratotic', 'Superficial-Intermediate', 'Koilocytotic', 'Metaplastic', 'Parabasal']
-    model = tf.keras.models.load_model(model)
+    model = tf.keras.models.load_model(model, custom_objects={"class2_recall": class2_recall})
     
     # image = tf.keras.utils.load_img(path=image, target_size=resolution, interpolation='bilinear', keep_aspect_ratio=False)
     img_array = tf.keras.utils.img_to_array(image)/255.0

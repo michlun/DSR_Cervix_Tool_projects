@@ -6,6 +6,7 @@ from model_2_utils import predict_image_class
 
 app = Flask(__name__)
 
+SCALE = 2
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -21,11 +22,17 @@ def upload_file():
         image = Image.open(io.BytesIO(image))
 
         # inference placeholder (pass the image to the model and predict)
-        prediction, confidence = predict_image_class(model='models/conv1_192x256_lr001_1dense256.h5', image=image, type='whole')
+        image_type = 'Whole slide'
+        prediction, confidence = predict_image_class(model='models/conv1_192x256_lr001_1dense256.h5', image=image, image_type=image_type)
         confidence_string = str(round(confidence * 100, 2))
 
         # Render the results in a page along with the image
-        return render_template('results.html', prediction=prediction, confidence=confidence_string, image=image_string)
+        return render_template('results.html',
+                               prediction=prediction,
+                               confidence=confidence_string,
+                               image=image_string,
+                               image_type=image_type,
+                               img_scale=SCALE)
 
     return render_template('upload.html')
 
@@ -33,33 +40,42 @@ def upload_file():
 @app.route('/annotate', methods=['POST'])
 def annotate_file():
     # Retrieve the annotated region from the form submission
-    xstart = request.form['xstart']
-    xend = request.form['xend']
-    ystart = request.form['ystart']
-    yend = request.form['yend']
+    xstart = int(request.form['xstart']) * SCALE
+    xend = int(request.form['xend']) * SCALE
+    ystart = int(request.form['ystart']) * SCALE 
+    yend = int(request.form['yend']) * SCALE
     image_base64 = request.form['image']
-
+    print('Xstart', xstart, 'Xend', xend, 'Ystart', ystart, 'Yend', yend)
 
     # crop the image based on the annotated region
     image = base64.b64decode(image_base64)
     image = Image.open(io.BytesIO(image))
     width, height = image.size
-    new_width = int(xend) - int(xstart)
-    new_height = int(yend) - int(ystart)
-    image = image.crop((int(xstart), int(ystart), int(xend), int(yend)))
-    image = image.resize((new_width, new_height))
-
+    print('Uncropped image size:', image.size)
+    new_width = xend - xstart
+    new_height = yend - ystart
+    image = image.crop((xstart, ystart, xend, yend))
+    # image = image.resize((new_width, new_height))
+    print('Cropped image size:', image.size)
+    
     # convert pillow image to base64 string
     buffered = io.BytesIO()
     image.save(buffered, format="JPEG")
     image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
 
-    # Process the annotated region and calculate the new width and height
-    prediction, confidence = predict_image_class(model='models/...', image=image, type='cell')
+    # Prediction
+    image_type = 'Single cell'
+    prediction, confidence = predict_image_class(model='models/cell_conv1_aug_80x80_1dense128.h5', image=image, image_type=image_type)
+    confidence_string = str(round(confidence * 100, 2))
 
     # Render the results in a page along with the image
-    return render_template('results.html', width=new_width, height=new_height, image=image_base64, prediction=prediction)
+    return render_template('results.html', 
+                           image=image_base64,
+                           prediction=prediction,
+                           confidence=confidence_string,
+                           image_type=image_type,
+                           img_scale=SCALE)
 
 
 def run_inference(image_base64):
