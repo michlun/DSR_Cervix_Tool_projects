@@ -1,141 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Module 2</title>
+{% extends "base.html" %}
 
-    <style>
-        body {
-            background: linear-gradient(to left, #7e85ff, #22288f);
-        }
+{%block heading3 %} Image Check {% endblock %}
 
-        .title {
-            text-align: center;
-            background: -webkit-linear-gradient(to right, #7e85ff, #c882e6);
-            background: -moz-linear-gradient(to right, #7e85ff, #c882e6);
-            -webkit-background-clip: text;
-            -moz-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            -moz-text-fill-color: transparent;
-            font-size: 46px;
-            margin-top: 80px;
-        }
+{% block content %}
 
-        .container {
-            height: 75vh;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-        }
+{% endblock %}
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 100%;
-        }
-
-        .label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: white;
-            padding: 5px;
-        }
-
-        .input-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 10px;
-            width: 50%;
-        }
-
-        .button-container {
-            position: fixed;
-            right: 5%;
-            bottom: 5%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            flex-direction: column;
-        }
-
-        .button {
-            width: 150%;
-            height: 30px;
-            font-size: 18px;
-            margin-bottom: 10%;
-            margin-right: 40%;
-        }
-
-        .button:first-child {
-            margin-bottom: 20%;
-        }
-        .icon {
-            position: fixed;
-            margin-top: 40%;
-            margin-left: 30px;
-        }
-
-        input[type="number"] {
-            overflow: hidden;
-            -moz-appearance: textfield;
-            -webkit-appearance: textfield;
-            appearance: textfield;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            border: 1px solid black;
-            background-color: white;
-            text-align: center;
-            font-size: 16px;
-            font-family: sans-serif;
-            resize: none;
-            height: 30px;
-            border-radius: 6px;
-            text-align: right;
-            padding-right: 20%;
-        }
-
-        @media screen and (max-width: 1366px) {
-            .title,
-            .container,
-             .input-group,
-             .label,
-             .input-column,
-             .button-container,
-             .button,
-             .button:first-child,
-              .icon {
-                transform: scale(0.9);
-
-                .label {
-                margin-bottom: 5px;
-                font-weight: bold;
-                color: white;
-                padding: 5px;
-                position: relative;
-            }
-
-            .label:after {
-                content: "";
-                display: inline-block;
-                height: 1em;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div>
-        <h1 class="title">Module 2</h1>
-
-        <div class="button-container">
-            <button class="button" onclick="window.location.href='/index.html'">Go to Home</button>
-            <button class="button" onclick="storeData()">Get Prediction</button>
-        </div>
+{% block buttons %}
+    <div class="button-container">
+        <button class="button-model-1" onclick="window.location.href='/index.html'">Go to Home</button>
+        <button class="button-model-1" onclick="storeData()">Get Prediction</button>
     </div>
-</body>
-</html>
+{% endblock %}
+
+
+
 

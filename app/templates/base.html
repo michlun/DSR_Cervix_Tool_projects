@@ -4,12 +4,12 @@
     <link href="{{ url_for('static', filename='css/style-home.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ url_for('static', filename='javascript/query.js') }}"></script>
     <meta charset="UTF-8">
-    <title class="title">{% block title %}Title{% endblock %}</title>
+    <title class="title">Cervix Tool</title>
 </head>
 <body>
     <div class="grid-container">
         <div class="header">
-            <h1 class="title">{% block heading %}Heading{% endblock %}</h1>
+            <h1 class="title">Cervix Tool</h1>
             <h3 class="undertitle">{% block heading3 %}Heading{% endblock %}</h3>
         </div>
 
@@ -23,7 +23,11 @@
 
             {% endblock %}
 
-            <img class="question-mark-icon" src="{{ url_for('static', filename='/icon/question-mark.svg.png') }}">
+            {% block icon %}
+            <a href="/infos.html">
+                <img class="question-mark-icon" src="{{ url_for('static', filename='/icon/question-mark.svg.png') }}">
+            </a>
+            {% endblock %}
         </div>
     </div>
 </body>
