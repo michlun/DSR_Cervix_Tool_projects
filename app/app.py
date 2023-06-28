@@ -30,7 +30,7 @@ app = Flask(__name__)
 app.static_folder = 'static'
 
 
-@app.route('/index.html')
+@app.route('/index')
 def get_app():
     """
     Renders the main application page.
@@ -42,7 +42,7 @@ def get_app():
     return render_template('./index.html')
 
 
-@app.route('/model_1.html')
+@app.route('/model_1')
 def model_1():
     """
     Renders the Model 1 page.
@@ -53,7 +53,7 @@ def model_1():
     return render_template('model_1.html')
 
 
-@app.route('/contact.html')
+@app.route('/contact')
 def info_page():
     """
     Renders the Infos page.
@@ -64,7 +64,7 @@ def info_page():
     return render_template('contact.html')
 
 
-@app.route('/model_2.html')
+@app.route('/model_2')
 def model_2():
     """
     Renders the Model 2 page.
@@ -75,7 +75,7 @@ def model_2():
     return render_template('model_2.html')
 
 
-@app.route('/prediction.html')
+@app.route('/prediction')
 def prediction_page():
     """
     Renders the prediction page.
