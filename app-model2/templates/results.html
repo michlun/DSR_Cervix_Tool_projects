@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Results</title>
+    <style>
+      #image-canvas {
+        cursor: crosshair;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image scaled (scale factor {{ img_scale }})</h1>
+    <p>{{ image_type }} prediction: <b>{{ prediction }}</b> with confidence {{ confidence }}%</p>
+
+    <h2>Selected region</h2>
+    <p>
+    <form id="annotate-form" action="/annotate" method="post">
+      <input type="hidden" name="image" value="{{ image }}">
+      <input type="text" name="xstart" id="xstart" required>
+      <input type="text" name="xend" id="xend" required>
+      <input type="text" name="ystart" id="ystart" required>
+      <input type="text" name="yend" id="yend" required>
+      <input type="submit" value="Annotate">
+    </form>
+    </p>
+    <canvas id="image-canvas"></canvas>
+    <script>
+      var scale = 2;
+      var canvas = document.getElementById('image-canvas');
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.src = "data:image/jpeg;base64,{{ image }}";
+      img.onload = function() {
+        canvas.width = img.width / scale;
+        canvas.height = img.height / scale;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+
+      var isDrawing = false;
+      var startX, startY;
+
+      canvas.addEventListener('mousedown', function(event) {
+        isDrawing = true;
+        startX = event.offsetX;
+        startY = event.offsetY;
+      });
+
+      canvas.addEventListener('mousemove', function(event) {
+        if (!isDrawing) return;
+
+        var x = event.offsetX;
+        var y = event.offsetY;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, x - startX, y - startY);
+      });
+
+      canvas.addEventListener('mouseup', function(event) {
+        isDrawing = false;
+
+        var x = event.offsetX;
+        var y = event.offsetY;
+
+        var xstart = Math.min(startX, x);
+        var xend = Math.max(startX, x);
+        var ystart = Math.min(startY, y);
+        var yend = Math.max(startY, y);
+
+        document.getElementById('xstart').value = xstart;
+        document.getElementById('xend').value = xend;
+        document.getElementById('ystart').value = ystart;
+        document.getElementById('yend').value = yend;
+
+        // Uncomment the following line if you want to submit the form automatically after the crop
+        // document.getElementById('annotate-form').submit();
+      });
+    </script>
+  </body>
+</html>
