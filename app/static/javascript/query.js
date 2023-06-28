@@ -22,7 +22,7 @@ function storeData() {
 }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/predictdata', true);
+    xhr.open('POST', '/prediction', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             window.location.href = '/prediction';

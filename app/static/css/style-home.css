@@ -16,7 +16,6 @@ body {
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
     font-size: 46px;
-    padding: 20px;
 }
 .undertitle {
     text-align: center;
@@ -27,12 +26,37 @@ body {
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
     font-size: 36px;
-    padding: 10px;
    }
+
+.img{
+    width: 100%;
+    height: auto;
+}
 
 .grid-container {
     display: grid;
     grid-template-rows: 20vh 70vh 10vh;
+}
+
+.grid-container-model-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.left-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+}
+
+.right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .header {
