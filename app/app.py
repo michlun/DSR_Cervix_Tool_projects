@@ -53,6 +53,17 @@ def model_1():
     return render_template('model_1.html')
 
 
+@app.route('/infos.html')
+def info_page():
+    """
+    Renders the Infos page.
+
+    Returns:
+        str: The HTML content of the rendered page.
+    """
+    return render_template('infos.html')
+
+
 @app.route('/model_2.html')
 def model_2():
     """
