@@ -24,14 +24,20 @@
             {% endblock %}
 
             {% block icon %}
-            <div class="icon-container">
+            <div class="container">
             <a href="/contact">
                 <img class="icon" src="{{ url_for('static', filename='/icon/contact.png') }}">
             </a>
 
-            <a >
-                <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
-            </a>
+            {% if 'model-1' in request.path %}
+                <a href="/info-mod-1-page-1">
+                    <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
+                </a>
+            {% elif 'model-2' in request.path %}
+                <a href="/info-model-2">
+                    <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
+                </a>
+            {% endif %}
             </div>
             {% endblock %}
         </div>
