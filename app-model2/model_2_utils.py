@@ -1,11 +1,13 @@
-import tensorflow as tf
 import numpy as np
 from PIL import Image
+from tensorflow.keras.utils import img_to_array
 from tf_keras_vis.utils.model_modifiers import ReplaceToLinear
 from tf_keras_vis.utils.scores import CategoricalScore
 from tf_keras_vis.gradcam import Gradcam
 from tf_keras_vis.saliency import Saliency
 from matplotlib import cm
+import tensorflow.keras.backend as K
+
 
 def class_recall(y_true, y_pred, c):
      y_true = K.flatten(y_true)
@@ -18,7 +20,7 @@ def class_recall(y_true, y_pred, c):
 def class2_recall(y_true, y_pred):
         return class_recall(y_true, y_pred, 2)
 
-def predict_image_class(model, image, image_type=None, heatmap=False, saliency=False):
+def predict_image_class(model, image, image_type=None, gradcam_map=False, saliency_map=False):
     
     if image_type == "Whole slide":
         resolution = (192,256)
@@ -30,10 +32,9 @@ def predict_image_class(model, image, image_type=None, heatmap=False, saliency=F
              image = image.resize((80,80), resample=Image.Resampling.BILINEAR)
     
     class_names = ['Dyskeratotic', 'Superficial-Intermediate', 'Koilocytotic', 'Metaplastic', 'Parabasal']
-    model = tf.keras.models.load_model(model, custom_objects={"class2_recall": class2_recall})
-    
+        
     # image = tf.keras.utils.load_img(path=image, target_size=resolution, interpolation='bilinear', keep_aspect_ratio=False)
-    img_array = tf.keras.utils.img_to_array(image)/255.0
+    img_array = img_to_array(image)/255.0
     img_array_batch = np.expand_dims(img_array,axis=0)
     
     pred = model.predict(x=img_array_batch, batch_size=1)
@@ -43,7 +44,7 @@ def predict_image_class(model, image, image_type=None, heatmap=False, saliency=F
     replace2linear = ReplaceToLinear()
     score = CategoricalScore(predicted_class)
     
-    if heatmap:
+    if gradcam_map:
         # Create Gradcam object
         gradcam = Gradcam(model,
                   model_modifier=replace2linear,
@@ -52,9 +53,9 @@ def predict_image_class(model, image, image_type=None, heatmap=False, saliency=F
         cam = gradcam(score,
               img_array,
               penultimate_layer=-1)
-        heatmap = np.uint8(255 - (cm.jet(cam[0])[..., :3] * 255))
+        heatmap = np.uint8((cm.jet(cam[0])[..., :3] * 255))
         return class_names[predicted_class], confidence, heatmap
-    elif saliency:
+    elif saliency_map:
         # Create Saliency object.
         saliency = Saliency(model,
                     model_modifier=replace2linear,
