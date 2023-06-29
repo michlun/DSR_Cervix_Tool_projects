@@ -35,11 +35,13 @@ from typing import List, Tuple
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import classification_report
-from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+
 import sys
 import numpy as np
 import pandas as pd
 import joblib as jl
+import ai_apy
 
 
 def wrangling_cervical_data(dataset_path: str, selected_features: List[str]) -> pd.DataFrame:
@@ -155,11 +157,15 @@ def predict_cervical_cancer_risk(data) -> Tuple:
         prediction = model.predict(data)
 
         if prediction[0] == 0:
-            prediction_str = 'The predicted risk of cervical cancer is low.'
-            return prediction[0], prediction_str
+            prediction_str = 'Please generate only a text of 3 rows about the following prediction: ' \
+                             'The predicted risk of cervical cancer is low.'
+            text_prediction = '0'  # ai_apy.generate_response(prediction_str)
+            return text_prediction
         else:
-            prediction_str = 'The predicted risk of cervical cancer is high.'
-            return prediction[0], prediction_str
+            prediction_str = 'Please generate only a text of 3 rows about the following prediction: ' \
+                             'The predicted risk of cervical cancer is high.'
+            text_prediction = '1'  # ai_apy.generate_response(prediction_str)
+            return text_prediction
 
     except Exception as e:
         print(sys.exc_info())
@@ -177,10 +183,10 @@ def train_model(x__train: np.ndarray, y__train: np.ndarray):
         The trained model.
     """
     # Add class_weight='balanced' to the model to have more weight on the minority class
-    svm = SVC(kernel='linear', random_state=42)
-    svm.fit(x__train, y__train)
+    lr = LogisticRegression(class_weight='balanced')
+    lr.fit(x__train, y__train)
 
-    jl.dump(svm, 'model_1.pk1')
+    jl.dump(lr, 'model_1.pk1')
 
 
 def get_input_values(input_dict):

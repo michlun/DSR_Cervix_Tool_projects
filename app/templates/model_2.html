@@ -1,30 +1,27 @@
 {% extends "base.html" %}
+
 {%block heading3 %} Image Check {% endblock %}
+
 {% block content %}
     <div class="grid-container-model-2">
         <div class="left-column">
-            {% if image %}
-            <img class="img" src="{{ image }}" alt="Image doesnt load">
-            {% endif %}
+            <!-- Contenuto della colonna sinistra -->
+            <p>Left column</p>
         </div>
         <div class="right-column">
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <label for="photo">Select a photo:</label>
-                <input type="file" id="photo" name="photo">
-                <input type="submit" value="Upload">
-            </form>
-            {% if image %}
-            <p>The predicted type is <b>{{ predicted_class }}</b> with a confidence of {{ confidence }}%</p>
-            {% endif %}
+            <!-- Contenuto della colonna destra -->
+            <p>Right column</p>
         </div>
     </div>
 {% endblock %}
+
 {% block buttons %}
     <div class="button-container">
-        <button class="button-model-1" onclick="window.location.href='/index.html'">Go to Home</button>
+        <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
         <button class="button-model-1" onclick="storeData()">Get Prediction</button>
     </div>
 {% endblock %}
+
 
 
 

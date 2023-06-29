@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{%block heading3 %} Image Check {% endblock %}
+
+{% block content %}
+
+
+<html>
+  <body>
+    <h2>Upload Image</h2>
+    <form action="/model-2" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <input type="submit" value="Upload">
+    </form>
+  </body>
+</html>
+
+{% endblock %}
+
+{% block buttons %}
+    <div class="button-container">
+        <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
+        <button class="button-model-1" onclick="storeData()">Get Prediction</button>
+    </div>
+{% endblock %}

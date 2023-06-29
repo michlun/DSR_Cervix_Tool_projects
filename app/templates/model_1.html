@@ -1,106 +1,113 @@
 {% extends "base.html" %}
 
-{%block heading3 %}Risk Prediction{% endblock %}
+{% block heading3 %}Risk Prediction{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="input-column">
-            <div class="input-group">
-                <label class="label">Age </label>
-                <input type="number" id="Age" value="0" oninput="formatInputValue(this)">
+    <form action="/prediction" method="post">
+        <div class="container">
+            <div class="input-column">
+                <div class="input-group">
+                    <label class="label" for="Age">Age</label>
+                    <input type="number" id="Age" name="Age" value="0">
 
-                <label class="label">First sexual intercourse </label>
-                <input type="number" id="First sexual intercourse" value="0" oninput="formatInputValue(this)">
+                    <label class="label" for="First sexual intercourse">First sexual intercourse</label>
+                    <input type="number" id="First sexual intercourse" name="First sexual intercourse" value="0">
 
-                <label class="label">Num of pregnancies </label>
-                <input type="number" id="Num of pregnancies" value="0" oninput="formatInputValue(this)">
+                    <label class="label" for="Num of pregnancies">Num of pregnancies</label>
+                    <input type="number" id="Num of pregnancies" name="Num of pregnancies" value="0">
 
-                <label class="label">Smokes (years) </label>
-                <input type="number" id="Smokes (years)" value="0" oninput="formatInputValue(this)">
+                    <label class="label" for="Smokes (years)">Smokes (years)</label>
+                    <input type="number" id="Smokes (years)" name="Smokes (years)" value="0">
 
-                <label class="label">Smokes (packs/year) </label>
-                <input type="number" id="Smokes (packs/year)" value="0" oninput="formatInputValue(this)">
+                    <label class="label" for="Smokes (packs/year)">Smokes (packs/year)</label>
+                    <input type="number" id="Smokes (packs/year)" name="Smokes (packs/year)" value="0">
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="input-group">
+                    <label class="label" for="Hormonal Contraceptives (years)">H. Contraceptives/yrs</label>
+                    <input type="number" id="Hormonal Contraceptives (years)" name="Hormonal Contraceptives (years)" value="0">
+
+                    <label class="label" for="IUD (years)">IUD (years)</label>
+                    <input type="number" id="IUD (years)" name="IUD (years)" value="0">
+
+                    <label class="label" for="STDs">STDs</label>
+                    <input type="number" id="STDs" name="STDs" value="0">
+
+                    <label class="label" for="STDs (number)">STDs (number)</label>
+                    <input type="number" id="STDs (number)" name="STDs (number)" value="0">
+
+                    <label class="label" for="STDs:HPV">HPV</label>
+                    <input type="number" id="STDs:HPV" name="STDs:HPV" value="0">
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="input-group">
+                    <label class="label" for="STDs:condylomatosis">Condylomatosis</label>
+                    <input type="number" id="STDs:condylomatosis" name="STDs:condylomatosis" value="0">
+
+                    <label class="label" for="STDs: Number of diagnosis">Number of diagnosis</label>
+                    <input type="number" id="STDs: Number of diagnosis" name="STDs: Number of diagnosis" value="0">
+
+                    <label class="label" for="Dx:Cancer">Dx:Cancer</label>
+                    <input type="number" id="Dx:Cancer" name="Dx:Cancer" value="0">
+
+                    <label class="label" for="STDs:Hepatitis B">Hepatitis B</label>
+                    <input type="number" id="STDs:Hepatitis B" name="STDs:Hepatitis B" value="0">
+
+                    <label class="label" for="Dx:CIN">Dx:CIN</label>
+                    <input type="number" id="Dx:CIN" name="Dx:CIN" value="0">
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="input-group">
+                    <label class="label" for="STDs:cervical condylomatosis">Cervical condylomatosis</label>
+                    <input type="number" id="STDs:cervical condylomatosis" name="STDs:cervical condylomatosis" value="0">
+
+                    <label class="label" for="STDs:vaginal condylomatosis">Vaginal condylomatosis</label>
+                    <input type="number" id="STDs:vaginal condylomatosis" name="STDs:vaginal condylomatosis" value="0">
+
+                    <label class="label" for="STDs:vulvo-perineal condylomatosis">VPC</label>
+                    <input type="number" id="STDs:vulvo-perineal condylomatosis" name="STDs:vulvo-perineal condylomatosis" value="0">
+
+                    <label class="label" for="STDs:syphilis">Syphilis</label>
+                    <input type="number" id="STDs:syphilis" name="STDs:syphilis" value="0">
+
+                    <label class="label" for="Dx:HPV">Dx:HPV</label>
+                    <input type="number" id="Dx:HPV" name="Dx:HPV" value="0">
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="input-group">
+                    <label class="label" for="STDs:pelvic inflammatory disease">Pelvic inflammatory dis.</label>
+                    <input type="number" id="STDs:pelvic inflammatory disease" name="STDs:pelvic inflammatory disease" value="0">
+
+                    <label class="label" for="STDs:genital herpes">Genital herpes</label>
+                    <input type="number" id="STDs:genital herpes" name="STDs:genital herpes" value="0">
+
+                    <label class="label" for="STDs:molluscum contagiosum">Molluscum contagiosum</label>
+                    <input type="number" id="STDs:molluscum contagiosum" name="STDs:molluscum contagiosum" value="0">
+
+                    <label class="label" for="STDs:AIDS">AIDS</label>
+                    <input type="number" id="STDs:AIDS" name="STDs:AIDS" value="0">
+
+                    <label class="label" for="STDs:HIV">HIV</label>
+                    <input type="number" id="STDs:HIV" name="STDs:HIV" value="0">
+                </div>
             </div>
         </div>
-
-        <div class="input-column">
-            <div class="input-group">
-                <label class="label">H. Contraceptives/yrs </label>
-                <input type="number" id="Hormonal Contraceptives (years)" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">IUD (years) </label>
-                <input type="number" id="IUD (years)" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">STDs </label>
-                <input type="number" id="STDs" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">STDs (number) </label>
-                <input type="number" id="STDs (number)" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">HPV </label>
-                <input type="number" id="STDs:HPV" value="0" oninput="formatInputValue(this)">
-            </div>
+        <div class="button-prediction">
+            <button class="button-model-1" type="submit">Get Prediction</button>
         </div>
+    </form>
 
-        <div class="input-column">
-            <div class="input-group">
-                <label class="label">Condylomatosis </label>
-                <input type="number" id="STDs:condylomatosis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Number of diagnosis </label>
-                <input type="number" id="STDs: Number of diagnosis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Dx:Cancer </label>
-                <input type="number" id="Dx:Cancer" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Hepatitis B </label>
-                <input type="number" id="STDs:Hepatitis B" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Dx:CIN B </label>
-                <input type="number" id="Dx:CIN" value="0" oninput="formatInputValue(this)">
-            </div>
-        </div>
-        <div class="input-column">
-            <div class="input-group">
-                <label class="label">Cervical condylomatosis </label>
-                <input type="number" id="STDs:cervical condylomatosis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Vaginal condylomatosis </label>
-                <input type="number" id="STDs:vaginal condylomatosis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">VPC </label>
-                <input type="number" id="STDs:vulvo-perineal condylomatosis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Syphilis </label>
-                <input type="number" id="STDs:syphilis" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Dx:HPV </label>
-                <input type="number" id="Dx:HPV" value="0" oninput="formatInputValue(this)">
-            </div>
-        </div>
-        <div class="input-column">
-            <div class="input-group">
-                <label class="label">Pelvic inflammatory dis.</label>
-                <input type="number" id="STDs:pelvic inflammatory disease" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Genital herpes </label>
-                <input type="number" id="STDs:genital herpes" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">Molluscum contagiosum </label>
-                <input type="number" id="STDs:molluscum contagiosum" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">AIDS </label>
-                <input type="number" id="STDs:AIDS" value="0" oninput="formatInputValue(this)">
-
-                <label class="label">HIV </label>
-                <input type="number" id="STDs:HIV" value="0" oninput="formatInputValue(this)">
-            </div>
-        </div>
-    </div>
 {% endblock %}
 {% block buttons %}
     <div class="button-container">
         <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
-        <button class="button-model-1" onclick="storeData()">Get Prediction</button>
-        <!--<button class="button-model-1" onclick="window.location.href='/prediction.html'">Get Prediction</button>-->
     </div>
 {% endblock %}

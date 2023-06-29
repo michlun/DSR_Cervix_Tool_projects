@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{%block heading3 %}Infos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="infos-container">
+        <table class="table-infos">
+            <tr>
+                <th>Age: </th>
+                <td>The age of the individual</td>
+            </tr>
+            <tr>
+                <th>Number of sexual partners:</th>
+                <td>The total number of sexual partners the individual has had.</td>
+            </tr>
+            <tr>
+                <th>First sexual intercourse:</th>
+                <td>The age at which the individual had their first sexual intercourse</td>
+            </tr>
+            <tr>
+                <th>Num of pregnancies:</th>
+                <td>The total number of pregnancies the individual has had</td>
+            </tr>
+            <tr>
+                <th>Smokes (years):</th>
+                <td>Indicates the number of years the individual has been smoking</td>
+            </tr>
+            <tr>
+                <th>Smokes (packs/year):</th>
+                <td>Indicates the average number of packs of cigarettes the individual smokes per year</td>
+            </tr>
+            <tr>
+                <th>H. Contraceptives/yrs:</th>
+                <td>Indicates the total number of years the individual has used hormonal contraceptives</td>
+            </tr>
+            <tr>
+                <th>IUD (years):</th>
+                <td>Indicates the total number of years the individual has used an IUD (Intrauterine Device)</td>
+            </tr>
+            <tr>
+                <th>STDs:</th>
+                <td>Indicates whether the individual has had any sexually transmitted diseases (STDs) or not</td>
+            </tr>
+            <tr>
+                <th>STDs (number):</th>
+                <td>Indicates the total number of different STDs the individual has had</td>
+            </tr>
+            <tr>
+                <th>HPV:</th>
+                <td>Indicates whether the individual has had HPV (Human Papillomavirus), a common sexually transmitted infection</td>
+            </tr>
+            <tr>
+                <th>Condylomatosis:</th>
+                <td>Indicates whether the individual has had condylomatosis, a sexually transmitted infection caused by human papillomavirus (HPV)</td>
+            </tr>
+            <tr>
+                <th>HIV:</th>
+                <td>Indicates whether the individual has had HIV (Human Immunodeficiency Virus), a viral infection that attacks the immune system</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block buttons %}
+    <div class="button-container">
+        <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
+        <button class="button-model-1" onclick="window.location.href='/info-mod-1-page-2'">Next</button>
+        <button class="button-model-1" onclick="window.location.href='/model-1'">Back</button>
+    </div>
+{% endblock %}

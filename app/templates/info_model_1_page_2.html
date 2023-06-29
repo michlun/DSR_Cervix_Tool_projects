@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{%block heading3 %}Infos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="infos-container">
+        <table class="table-infos">
+            <tr>
+                <th>Number of diagnosis: </th>
+                <td>The total number of STD diagnoses the individual has received</td>
+            </tr>
+            <tr>
+                <th>Dx:Cancer:</th>
+                <td>Indicates whether the individual has been diagnosed with cervical cancer</td>
+            </tr>
+            <tr>
+                <th>Hepatitis B:</th>
+                <td>Indicates whether the individual has had Hepatitis B, a viral infection affecting the liver</td>
+            </tr>
+            <tr>
+                <th>Dx:CIN:</th>
+                <td>Indicates whether the individual has been diagnosed with cervical intraepithelial neoplasia (CIN), a precancerous condition of the cervix</td>
+            </tr>
+            <tr>
+                <th>Cervical condylomatosis:</th>
+                <td> Indicates whether the individual has had cervical condylomatosis, a type of HPV infection affecting the cervix</td>
+            </tr>
+            <tr>
+                <th>Vaginal condylomatosis:</th>
+                <td>Indicates whether the individual has had vaginal condylomatosis, a type of HPV infection affecting the vagina</td>
+            </tr>
+            <tr>
+                <th>VPC:</th>
+                <td>Indicates whether the individual has had vulvo-perineal condylomatosis, a type of HPV infection affecting the vulva and perineal area</td>
+            </tr>
+            <tr>
+                <th>Syphilis:</th>
+                <td>Indicates whether the individual has had syphilis, a bacterial infection transmitted through sexual contact</td>
+            </tr>
+            <tr>
+                <th>Dx:HPV:</th>
+                <td>Indicates whether the individual has been diagnosed with HPV infection</td>
+            </tr>
+            <tr>
+                <th>Pelvic inflammatory dis.:</th>
+                <td>Indicates whether the individual has had pelvic inflammatory disease, an infection of the female reproductive organs</td>
+            </tr>
+            <tr>
+                <th>Genital herpes:</th>
+                <td>Indicates whether the individual has had genital herpes, a viral infection transmitted through sexual contact</td>
+            </tr>
+            <tr>
+                <th>Molluscum contagiosum:</th>
+                <td>Indicates whether the individual has had molluscum contagiosum, a viral skin infection transmitted through close contact</td>
+            </tr>
+            <tr>
+                <th>AIDS:</th>
+                <td> Indicates whether the individual has had AIDS (Acquired Immunodeficiency Syndrome), a late stage of HIV infection</td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block buttons %}
+    <div class="button-container">
+        <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
+        <button class="button-model-1" onclick="window.location.href='/info-mod-1-page-1'">Back</button>
+    </div>
+{% endblock %}
