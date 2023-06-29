@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
+    font-family: 'Comfortaa', cursive;
     margin: 0;
-    background: linear-gradient(to left, #e8ad3f,#de7818);
+    background-image: url('/static/background/bk.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .title {
