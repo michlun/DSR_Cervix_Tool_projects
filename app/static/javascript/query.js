@@ -9,29 +9,31 @@ function formatInputValue(input) {
     }
 }
 
-// Store the input values
-function storeData() {
-    var formData = new FormData();
-    var inputs = document.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == 0 || inputs[i].value == '') {
-            formData.append(inputs[i].id, 0);
-        } else {
-            formData.append(inputs[i].id, inputs[i].value);
-        }
-}
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('form[action="/prediction"]');
+    var inputs = form.querySelectorAll('input[type="number"]');
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/prediction', true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            window.location.href = '/prediction';
-        } else {
-            alert('An error is occurred');
+    inputs.forEach(function(input) {
+      input.addEventListener('input', function() {
+        if (this.value === '') {
+          this.value = '0';
         }
-    };
-    xhr.send(formData);
-}
+      });
+
+      input.addEventListener('keydown', function() {
+        if (this.value === '0') {
+          this.value = '';
+        }
+      });
+
+      input.addEventListener('blur', function() {
+        if (this.value === '') {
+          this.value = '0';
+        }
+        this.value = parseInt(this.value);
+      });
+    });
+  });
 
 // Reset the input box values to 0 when the page is reloaded
 window.addEventListener('DOMContentLoaded', function () {
