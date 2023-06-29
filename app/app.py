@@ -95,11 +95,11 @@ def predict_data():
         for key in request.form:
             input_data[key] = request.form[key]
         data = m1u.get_input_values(input_data)
-        prediction = m1u.predict_cervical_cancer_risk(data)
-        text_prediction = f"The prediction is {prediction}"
+        print(input_data)
+        text_prediction = m1u.predict_cervical_cancer_risk(data)
         return render_template('prediction.html', prediction=text_prediction)
     else:
-        return render_template('/prediction.html')
+        return render_template('prediction.html')
 
 
 if __name__ == '__main__':
