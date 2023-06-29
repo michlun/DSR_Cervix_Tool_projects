@@ -159,12 +159,12 @@ def predict_cervical_cancer_risk(data) -> Tuple:
         if prediction[0] == 0:
             prediction_str = 'Please generate only a text of 3 rows about the following prediction: ' \
                              'The predicted risk of cervical cancer is low.'
-            text_prediction = ai_apy.generate_response(prediction_str)
+            text_prediction = '0'  # ai_apy.generate_response(prediction_str)
             return text_prediction
         else:
             prediction_str = 'Please generate only a text of 3 rows about the following prediction: ' \
                              'The predicted risk of cervical cancer is high.'
-            text_prediction = ai_apy.generate_response(prediction_str)
+            text_prediction = '1'  # ai_apy.generate_response(prediction_str)
             return text_prediction
 
     except Exception as e:

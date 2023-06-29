@@ -54,7 +54,7 @@ def model_1():
 
 
 @app.route('/contact')
-def info_page():
+def contact_page():
     """
     Renders the Infos page.
 
@@ -65,7 +65,7 @@ def info_page():
 
 
 @app.route('/model-2')
-def model_2():
+def info_model_2():
     """
     Renders the Model 2 page.
 
@@ -73,6 +73,39 @@ def model_2():
         str: The HTML content of the rendered page.
     """
     return render_template('model_2.html')
+
+
+@app.route('/info-mod-1-page-1')
+def info_model_1_page_1():
+    """
+    Renders the Infos about the content of the Model 1 page.
+
+    Returns:
+        str: The HTML content of the rendered page.
+    """
+    return render_template('info_model_1_page_1.html')
+
+
+@app.route('/info-mod-1-page-2')
+def info_model_1_page_2():
+    """
+    Renders the Infos about the content of the Model 1 page.
+
+    Returns:
+        str: The HTML content of the rendered page.
+    """
+    return render_template('info_model_1_page_2.html')
+
+
+@app.route('/info-model-2')
+def model_2():
+    """
+    Renders the Infos about the content of the Model 2 page.
+
+    Returns:
+        str: The HTML content of the rendered page.
+    """
+    return render_template('info_model_2.html')
 
 
 @app.route('/prediction', methods=['POST', 'GET'])
