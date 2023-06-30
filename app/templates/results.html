@@ -1,38 +1,48 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Results</title>
-    <style>
-      #image-canvas {
-        cursor: crosshair;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>{{ image_type }} image</h1>
-    <p>{{ image_type }} prediction: <b>{{ prediction }}</b> with confidence {{ confidence }}%</p>
-    <p>
-      <button id="button_heatmap" type="button">Grad-CAM on/off</button>
-      <button id="button_goback" onclick="window.location.href='/model-2'" type="button">Go back</button>
-    </p>
+{% extends "base.html" %}
+{% block Title %}{{ image_type }}{% endblock %}
+{% block heading3 %}{% endblock %}
 
-    {% if whole_slide %}
-    <h3>Please select a cell</h3>
-    <p>
-    <i>X-start, X-end, Y-start, Y-end</i>
-    <form id="annotate-form" action="/annotate" method="post">
-      <input type="hidden" name="image" value="{{ image }}">
-      <input type="text" name="xstart" placeholder="X-start" id="xstart" required>
-      <input type="text" name="xend" placeholder="X-end" id="xend" required>
-      <input type="text" name="ystart" placeholder="Y-start" id="ystart" required>
-      <input type="text" name="yend" placeholder="Y-end" id="yend" required>
-      <input type="submit" value="Single cell prediction">
-    </form>
-    </p>
-    {% endif %}
+{% block content %}
+<div class="image-uploaded-container">
+    <div class="column-cell-image">
+        <canvas  id="image-canvas" style="max-width: 100%; max-height: 100%;"></canvas>
+    </div>
 
+    <div class="column-cell-image">
+        <div>
+            <h5 class="text-1">{{ image_type }} prediction: <b>{{ prediction }}</b> with confidence {{ confidence }}%</h5>
+        </div>
+        <div>
+            <button class="button-model-1" id="button_heatmap">Grad-CAM on/off</button>
+        </div>
+        {% if whole_slide %}
+        <div>
+            <h5 class="text-2">Please select a cell</h5>
+        </div>
 
-    <canvas id="image-canvas"></canvas>
+        <form id="annotate-form" action="/annotate" method="post">
+            <input type="hidden" name="image" value="{{ image }}">
+
+            <label for="xstart" class="text-1">X-start</label>
+            <input type="text" name="xstart" placeholder="X-start" id="xstart" required>
+
+            <label for="xend" class="text-1">X-end</label>
+            <input type="text" name="xend" placeholder="X-end" id="xend" required>
+
+            <label for="ystart" class="text-1">Y-start</label>
+            <input type="text" name="ystart" placeholder="Y-start" id="ystart" required>
+
+            <label for="yend" class="text-1">Y-end</label>
+            <input type="text" name="yend" placeholder="Y-end" id="yend" required>
+
+            <input type="submit" value="Single cell prediction">
+        </form>
+
+        {% block icon %}{% endblock %}
+        {% endif %}
+    </div>
+</div>
+
     <script>
       function toggle_heatmap() {
         heatmap_on = !heatmap_on;
@@ -113,5 +123,11 @@
       });
       button_heatmap.addEventListener("click", toggle_heatmap);
     </script>
-  </body>
-</html>
+{% endblock %}
+
+{% block buttons %}
+<div class="button-container">
+    <button class="button-model-1" onclick="window.location.href='/index'">Home</button>
+    <button class="button-model-1" onclick="window.location.href='/model-2'">Back</button>
+</div>
+{% endblock %}

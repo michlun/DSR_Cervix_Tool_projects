@@ -22,10 +22,15 @@ body {
 .title {
   color: var(--text-color-1);
   background-color: var(--background-text-color);
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   font-size: 46px;
+  box-sizing: border-box;
+  width: calc(100vw - 60px);
+
+
 }
+
 
 .undertitle {
   color: var(--text-color-2);
@@ -171,6 +176,7 @@ input[type="number"] {
 .button-model-1 {
   width: 150%;
   height: 30px;
+  max-width: 250px;
   font-size: 18px;
   margin-bottom: 10%;
   margin-right: 40%;
@@ -184,6 +190,27 @@ input[type="number"] {
 }
 
 /* Model 2 */
+#image-canvas {
+  cursor: crosshair;
+}
+
+.text-1{
+  color: var(--text-infos-contact);
+  size: 35px;
+}
+
+.text-2{
+  color: var(--text-infos-contact);
+  font-size: 30px;
+}
+
+#annotate-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+}
+
 .img {
   width: 100%;
   height: auto;
@@ -197,17 +224,32 @@ input[type="number"] {
   padding: 7vh;
 }
 
+.image-uploaded-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 10vh;
+}
+
 .column {
   /* border: 2px solid red;*/
   padding: 20px;
   width: 40vw;
 }
 
+.column-cell-image {
+  /* border: 2px solid red; */
+  width: 50vw;
+  align-items: center;
+  margin-left: 5vw;
+}
+
 input[type="submit"] {
-  width: 150px;
+  width: 250px;
   height: 30px;
   font-size: 18px;
-  margin: 30px;
+  margin-top: 30px;
   border-radius: 10px;
   background-color: #f2f2f2;
   color: #b52cd4;
