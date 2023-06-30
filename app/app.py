@@ -33,6 +33,12 @@ from cell_detection.model_2_utils import predict_image_class, class_recall, clas
 from tensorflow import keras
 from keras.models import load_model
 
+# Load prediction models for images
+model_whole = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
+model_whole = load_model(model_whole)
+model_cell = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
+model_cell = load_model(model_cell, custom_objects={"class2_recall": class2_recall})
+
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -70,17 +76,6 @@ def contact_page():
         str: The HTML content of the rendered page.
     """
     return render_template('contact.html')
-
-
-# @app.route('/model-2')
-# def model_2():
-#     """
-#     Renders the Model 2 page.
-#
-#     Returns:
-#         str: The HTML content of the rendered page.
-#     """
-#     return render_template('model_2.html')
 
 
 @app.route('/info-mod-1-page-1')

@@ -3,13 +3,13 @@
 {% block heading %}Risk Prediction{% endblock %}
 {% block heading3 %}Prediction Result{% endblock %}
 {% block content %}
-<div class="container">
-    <p class="text-prediction">{{prediction}}</p>
+<div class="prediction-container">
+    <p class="text-prediction text-center">{{prediction}}</p>
 </div>
 {% endblock %}
 {% block buttons %}
 <div class="button-container">
-    <button class="button-model-1" onclick="window.location.href='/index'">Go to Home</button>
+    <button class="button-model-1" onclick="window.location.href='/index'">Home</button>
     <button class="button-model-1" onclick="window.location.href='/model-1'">Back</button>
 </div>
 {% endblock %}
