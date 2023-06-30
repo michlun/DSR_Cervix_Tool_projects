@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Results</title>
+    <style>
+      #image-canvas {
+        cursor: crosshair;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ image_type }} image</h1>
+    <p>{{ image_type }} prediction: <b>{{ prediction }}</b> with confidence {{ confidence }}%</p>
+    <p>
+      <button id="button_heatmap" type="button">Grad-CAM on/off</button>
+      <button id="button_goback" onclick="window.location.href='/model-2'" type="button">Go back</button>
+    </p>
+
+    {% if whole_slide %}
+    <h3>Please select a cell</h3>
+    <p>
+    <i>X-start, X-end, Y-start, Y-end</i>
+    <form id="annotate-form" action="/annotate" method="post">
+      <input type="hidden" name="image" value="{{ image }}">
+      <input type="text" name="xstart" placeholder="X-start" id="xstart" required>
+      <input type="text" name="xend" placeholder="X-end" id="xend" required>
+      <input type="text" name="ystart" placeholder="Y-start" id="ystart" required>
+      <input type="text" name="yend" placeholder="Y-end" id="yend" required>
+      <input type="submit" value="Single cell prediction">
+    </form>
+    </p>
+    {% endif %}
+
+
+    <canvas id="image-canvas"></canvas>
+    <script>
+      function toggle_heatmap() {
+        heatmap_on = !heatmap_on;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1.0;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        if (heatmap_on == true) {
+          ctx.globalAlpha = 0.3;
+          ctx.drawImage(heatmap, 0, 0, canvas.width, canvas.height);
+        }
+      };
+
+      var scale = {{ img_scale }};
+      var heatmap_on = false;
+      var canvas = document.getElementById('image-canvas');
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.src = "data:image/jpeg;base64,{{ image }}";
+      var heatmap = new Image();
+      heatmap.src = "data:image/jpeg;base64,{{ heatmap }}";
+
+      img.onload = function() {
+        canvas.width = img.width / scale;
+        canvas.height = img.height / scale;
+        ctx.globalAlpha = 1.0;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        if (heatmap_on == true) {
+          ctx.globalAlpha = 0.3;
+          ctx.drawImage(heatmap, 0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      var isDrawing = false;
+      var startX, startY;
+
+      canvas.addEventListener('mousedown', function(event) {
+        isDrawing = true;
+        startX = event.offsetX;
+        startY = event.offsetY;
+      });
+
+      canvas.addEventListener('mousemove', function(event) {
+        if (!isDrawing) return;
+
+        var x = event.offsetX;
+        var y = event.offsetY;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1.0;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        if (heatmap_on == true) {
+          ctx.globalAlpha = 0.3;
+          ctx.drawImage(heatmap, 0, 0, canvas.width, canvas.height);
+        }
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, x - startX, y - startY);
+      });
+
+      canvas.addEventListener('mouseup', function(event) {
+        isDrawing = false;
+
+        var x = event.offsetX;
+        var y = event.offsetY;
+
+        var xstart = Math.min(startX, x) * scale;
+        var xend = Math.max(startX, x) * scale;
+        var ystart = Math.min(startY, y) * scale;
+        var yend = Math.max(startY, y) * scale;
+
+        document.getElementById('xstart').value = xstart;
+        document.getElementById('xend').value = xend;
+        document.getElementById('ystart').value = ystart;
+        document.getElementById('yend').value = yend;
+
+        // Uncomment the following line if you want to submit the form automatically after the crop
+        // document.getElementById('annotate-form').submit();
+      });
+      button_heatmap.addEventListener("click", toggle_heatmap);
+    </script>
+  </body>
+</html>
