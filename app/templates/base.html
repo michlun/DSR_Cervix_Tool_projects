@@ -31,11 +31,11 @@
             </a>
 
             {% if 'model-1' in request.path %}
-                <a href="/info-mod-1-page-1">
+                <a href="/info-mod-1-page-1" target="_blank">
                     <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
                 </a>
             {% elif 'model-2' in request.path %}
-                <a href="/info-model-2">
+                <a href="/info-model-2" target="_blank">
                     <img class="icon" src="{{ url_for('static', filename='/icon/info.png') }}">
                 </a>
             {% endif %}
