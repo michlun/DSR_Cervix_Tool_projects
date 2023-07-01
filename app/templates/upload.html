@@ -9,11 +9,20 @@
             <img class="rounded float-start" src="/static/img/cell.jpg">
         </div>
         <div class="column">
+            <p>
+            <h3> Upload a whole slide microscope image</h3>
             <form action="/model-2" method="post" enctype="multipart/form-data">
                 <input class= "form-control" id="formFileLg" type="file" name="image" accept="image/*" required>
-
                 <input type="submit" value="Upload">
             </form>
+            </p>
+            <p>
+            <h3> Upload a single cell cropped microscope image</h3>
+            <form action="/singlecell" method="post" enctype="multipart/form-data">
+                <input class= "form-control" id="formFileLg" type="file" name="image" accept="image/*" required>
+                <input type="submit" value="Upload">
+            </form>
+            </p>
         </div>
     </div>
 

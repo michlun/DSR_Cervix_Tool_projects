@@ -1,49 +1,37 @@
-{% extends "base.html" %}
-{% block Title %}{{ image_type }}{% endblock %}
-{% block heading3 %}{% endblock %}
-
-{% block content %}
-<div class="image-uploaded-container">
-    <div class="column-cell-image">
-        <canvas  id="image-canvas" style="max-width: 100%; max-height: 100%;"></canvas>
-    </div>
-
-    <div class="column-cell-image">
-        <div>
-            <h5 class="text-1">{{ image_type }} prediction:</h5>
-            <h5 class="text-1"><b>{{ prediction }}</b> with confidence {{ confidence }}%</h5>
-        </div>
-        <div>
-            <button class="button-model-1" id="button_heatmap">Grad-CAM on/off</button>
-        </div>
-        {% if whole_slide %}
-        <div>
-            <h5 class="text-2">Please select a cell</h5>
-        </div>
-
-        <form id="annotate-form" action="/annotate" method="post">
-            <input type="hidden" name="image" value="{{ image }}">
-
-            <label for="xstart" class="text-1">X-start</label>
-            <input type="text" name="xstart" placeholder="X-start" id="xstart" required>
-
-            <label for="xend" class="text-1">X-end</label>
-            <input type="text" name="xend" placeholder="X-end" id="xend" required>
-
-            <label for="ystart" class="text-1">Y-start</label>
-            <input type="text" name="ystart" placeholder="Y-start" id="ystart" required>
-
-            <label for="yend" class="text-1">Y-end</label>
-            <input type="text" name="yend" placeholder="Y-end" id="yend" required>
-
-            <input type="submit" value="Single cell prediction">
-        </form>
-
-        {% block icon %}{% endblock %}
-        {% endif %}
-    </div>
-</div>
-
+<html>
+  <head>
+    <title>Results</title>
+    <style>
+      #image-canvas {
+        cursor: crosshair;
+      }
+    </style>
+    <link href="{{ url_for('static', filename='css/model-2.css') }}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <h1> {{ image_type }} image</h1>
+    <h2> {{ image_type }} prediction: <b>{{ prediction }}</b> with probability {{ confidence }}%</h2>
+    <p>
+    <button id="button_heatmap" type="button">GradCAM++ on/off</button>
+    <button id="button_goback" onclick="window.location.href='/model-2'" type="button">Go back to image selection</button>
+    <button id="button_gohome" onclick="window.location.href='/index'">Home</button>
+    </p>
+    {% if whole_slide %}
+    <h3>Please select a cell</h3>
+    <p>
+    <i>X-start, X-end, Y-start, Y-end</i>
+    <form id="annotate-form" action="/annotate" method="post">
+      <input type="hidden" name="image" value="{{ image }}">
+      <input type="text" name="xstart" placeholder="X-start" id="xstart" required>
+      <input type="text" name="xend" placeholder="X-end" id="xend" required>
+      <input type="text" name="ystart" placeholder="Y-start" id="ystart" required>
+      <input type="text" name="yend" placeholder="Y-end" id="yend" required>
+      <input type="submit" value="Single cell prediction">
+    </form>
+    </p>
+    {% endif %}
+    
+    <canvas id="image-canvas"></canvas>
     <script>
       function toggle_heatmap() {
         heatmap_on = !heatmap_on;
@@ -109,10 +97,10 @@
         var x = event.offsetX;
         var y = event.offsetY;
 
-        var xstart = Math.min(startX, x) * scale;
-        var xend = Math.max(startX, x) * scale;
-        var ystart = Math.min(startY, y) * scale;
-        var yend = Math.max(startY, y) * scale;
+        var xstart = Math.round(Math.min(startX, x) * scale);
+        var xend = Math.round(Math.max(startX, x) * scale);
+        var ystart = Math.round(Math.min(startY, y) * scale);
+        var yend = Math.round(Math.max(startY, y) * scale);
 
         document.getElementById('xstart').value = xstart;
         document.getElementById('xend').value = xend;
@@ -124,11 +112,5 @@
       });
       button_heatmap.addEventListener("click", toggle_heatmap);
     </script>
-{% endblock %}
-
-{% block buttons %}
-<div class="button-container">
-    <button class="button-model-1" onclick="window.location.href='/index'">Home</button>
-    <button class="button-model-1" onclick="window.location.href='/model-2'">Back</button>
-</div>
-{% endblock %}
+ </body>
+</html>

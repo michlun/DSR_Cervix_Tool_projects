@@ -4,7 +4,7 @@ from tensorflow import keras
 from keras.utils import img_to_array
 from tf_keras_vis.utils.model_modifiers import ReplaceToLinear
 from tf_keras_vis.utils.scores import CategoricalScore
-from tf_keras_vis.gradcam import Gradcam
+from tf_keras_vis.gradcam import GradcamPlusPlus
 from tf_keras_vis.saliency import Saliency
 from matplotlib import cm
 import keras.backend as K
@@ -49,11 +49,11 @@ def predict_image_class(model, image, image_type=None, gradcam_map=False, salien
     score = CategoricalScore(predicted_class)
 
     if gradcam_map:
-        # Create Gradcam object
-        gradcam = Gradcam(model,
+        # Create Gradcam++ object
+        gradcam = GradcamPlusPlus(model,
                   model_modifier=replace2linear,
                   clone=True)
-        # Generate heatmap with GradCAM
+        # Generate heatmap with GradCAM++
         cam = gradcam(score,
               img_array,
               penultimate_layer=-1)

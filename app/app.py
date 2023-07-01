@@ -33,11 +33,11 @@ from cell_detection.model_2_utils import predict_image_class, class_recall, clas
 from tensorflow import keras
 from keras.models import load_model
 
-# Load prediction models for images
-model_whole = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
-model_whole = load_model(model_whole)
-model_cell = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
-model_cell = load_model(model_cell, custom_objects={"class2_recall": class2_recall})
+# Model files 
+model_whole_name = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
+model_cell_name = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
+model_whole = None 
+model_cell = None
 
 
 app = Flask(__name__)
@@ -140,6 +140,10 @@ def predict_data():
 
 @app.route('/model-2', methods=['GET', 'POST'])
 def upload_file():
+    
+    global model_whole_name
+    global model_whole
+
     if request.method == 'POST':
         # Get the uploaded image file
         image = request.files['image']
@@ -150,12 +154,14 @@ def upload_file():
         # convert to PIL format and compute scale factor
         image = base64.b64decode(image_string)
         image = Image.open(io.BytesIO(image))
-        scale_fac = image.size[0] / 1024.
+        scale_fac = image.size[0] / min(1536., image.size[0])
         # print('Scale factor:', scale_fac)
 
-        # Setting image type for prediction and rendering:
+        # Setting image type for prediction and rendering and load the model if required:
         image_type = 'Whole slide'
-
+        if model_whole == None:
+            model_whole = load_model(model_whole_name)
+        
         # inference
         prediction, confidence, heatmap = predict_image_class(model=model_whole,
                                                               image=image,
@@ -187,12 +193,15 @@ def upload_file():
 
 @app.route('/annotate', methods=['POST'])
 def annotate_file():
+    global model_cell_name
+    global model_cell
     # Retrieve the annotated region from the form submission
     xstart = int(request.form['xstart'])
     xend = int(request.form['xend'])
     ystart = int(request.form['ystart'])
     yend = int(request.form['yend'])
     image_base64 = request.form['image']
+    print(image_base64)
     # print('Xstart', xstart, 'Xend', xend, 'Ystart', ystart, 'Yend', yend)
 
     # crop the image based on the annotated region
@@ -205,15 +214,19 @@ def annotate_file():
     image = image.crop((xstart, ystart, xend, yend))
     # image = image.resize((new_width, new_height))
     # print('Cropped image size:', image.size)
-
+    # Compute scale factor:
+    min_width = max(width, 128.)
+    scale_fac = width/ min(1536., min_width)
     # convert pillow image to base64 string
     buffered = io.BytesIO()
     image.save(buffered, format="JPEG")
     image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-    # Setting image type for prediction and rendering
+    # Setting image type for prediction and rendering and load the model if required
     image_type = 'Single cell'
-
+    if model_cell == None:
+        model_cell = load_model(model_cell_name, custom_objects={"class2_recall": class2_recall})
+    
     # Inference
     prediction, confidence, heatmap = predict_image_class(model=model_cell,
                                                           image=image,
@@ -238,6 +251,51 @@ def annotate_file():
                            img_scale=1,
                            heatmap=heatmap_b64)
 
+@app.route('/singlecell', methods=['POST'])
+def singlecell_file():
+    global model_cell_name
+    global model_cell
+    
+    # Get the uploaded image file
+    image = request.files['image']
+
+    # convert image to base64 string
+    image_string = base64.b64encode(image.read()).decode('utf-8')
+
+    # convert to PIL format and compute scale factor
+    image = base64.b64decode(image_string)
+    image = Image.open(io.BytesIO(image))
+    min_width = max(image.size[0], 128.)
+    scale_fac = image.size[0] / min(1536., min_width)
+    
+    # Setting image type for prediction and rendering and load the model if required
+    image_type = 'Single cell'
+    if model_cell == None:
+        model_cell = load_model(model_cell_name, custom_objects={"class2_recall": class2_recall})
+    
+    # Inference
+    prediction, confidence, heatmap = predict_image_class(model=model_cell,
+                                                          image=image,
+                                                          image_type=image_type,
+                                                          gradcam_map=True)
+
+    # Convert confidence to percentual string
+    confidence_string = str(round(confidence * 100, 2))
+
+    # Convert heatmap to pillow and then base64 format
+    heatmap_pil = Image.fromarray(heatmap)
+    buffered = io.BytesIO()
+    heatmap_pil.save(buffered, format="JPEG")
+    heatmap_b64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+    # Render the results in a page along with the single cell image
+    return render_template('results.html',
+                           image=image_string,
+                           prediction=prediction,
+                           confidence=confidence_string,
+                           image_type=image_type,
+                           img_scale=scale_fac,
+                           heatmap=heatmap_b64)
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
