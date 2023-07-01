@@ -33,12 +33,6 @@ from cell_detection.model_2_utils import predict_image_class, class_recall, clas
 from tensorflow import keras
 from keras.models import load_model
 
-# Load prediction models for images
-model_whole = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
-model_whole = load_model(model_whole)
-model_cell = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
-model_cell = load_model(model_cell, custom_objects={"class2_recall": class2_recall})
-
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -141,6 +135,10 @@ def predict_data():
 @app.route('/model-2', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        # Load prediction models for images
+        model_whole = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
+        model_whole = load_model(model_whole)
+
         # Get the uploaded image file
         image = request.files['image']
 
@@ -187,6 +185,10 @@ def upload_file():
 
 @app.route('/annotate', methods=['POST'])
 def annotate_file():
+    # Load prediction modelsate
+    model_cell = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
+    model_cell = load_model(model_cell, custom_objects={"class2_recall": class2_recall})
+
     # Retrieve the annotated region from the form submission
     xstart = int(request.form['xstart'])
     xend = int(request.form['xend'])
