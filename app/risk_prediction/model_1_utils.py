@@ -36,6 +36,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 
 import sys
 import numpy as np
@@ -183,10 +184,10 @@ def train_model(x__train: np.ndarray, y__train: np.ndarray):
         The trained model.
     """
     # Add class_weight='balanced' to the model to have more weight on the minority class
-    lr = LogisticRegression(class_weight='balanced')
-    lr.fit(x__train, y__train)
+    model = SVC(class_weight='balanced', random_state=42)
+    model.fit(x__train, y__train)
 
-    jl.dump(lr, 'model_1.pk1')
+    jl.dump(model, 'model_1.pk1')
 
 
 def get_input_values(input_dict):
