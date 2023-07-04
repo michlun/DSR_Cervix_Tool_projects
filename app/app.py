@@ -31,11 +31,15 @@ from PIL import Image
 import io
 from cell_detection.model_2_utils import predict_image_class, class_recall, class2_recall
 from tensorflow import keras
-from keras.models import load_model
+from tensorflow.keras.models import load_model
+from tensorflow.keras.utils import img_to_array
+# from tensorflow.keras.applications.resnet_v2 import preprocess_input as preprocess_input_resnetv2
+from tensorflow.keras.applications.vgg19 import preprocess_input as preprocess_input_vgg19
+
 
 # Model files 
-model_whole_name = 'cell_detection/conv1_192x256_lr001_1dense256.h5'
-model_cell_name = 'cell_detection/cell_conv1_aug_80x80_1dense128.h5'
+model_whole_name = 'cell_detection/vgg19_globavgpool_drop_1dense256_finetune_3.h5'
+model_cell_name = 'cell_detection/vgg19_128x128_globalavgpool_1dense128_finetune_3.h5'
 model_whole = None 
 model_cell = None
 
@@ -154,7 +158,7 @@ def upload_file():
         # convert to PIL format and compute scale factor
         image = base64.b64decode(image_string)
         image = Image.open(io.BytesIO(image))
-        scale_fac = image.size[0] / min(1536., image.size[0])
+        scale_fac = image.size[0] / min(1024., image.size[0])
         # print('Scale factor:', scale_fac)
 
         # Setting image type for prediction and rendering and load the model if required:
@@ -162,9 +166,14 @@ def upload_file():
         if model_whole == None:
             model_whole = load_model(model_whole_name)
         
+        # Preprocessing the image for prediciton
+        image_resized = image.resize((256,192), resample=Image.Resampling.BILINEAR)
+        img_array = img_to_array(image_resized)
+        img_array = preprocess_input_vgg19(img_array)
+
         # inference
         prediction, confidence, heatmap = predict_image_class(model=model_whole,
-                                                              image=image,
+                                                              image=img_array,
                                                               image_type=image_type,
                                                               gradcam_map=True)
 
@@ -227,9 +236,14 @@ def annotate_file():
     if model_cell == None:
         model_cell = load_model(model_cell_name, custom_objects={"class2_recall": class2_recall})
     
+    # Preprocessing the image for prediciton
+    image_resized = image.resize((128,128), resample=Image.Resampling.BILINEAR)
+    img_array = img_to_array(image_resized)
+    img_array = preprocess_input_vgg19(img_array)
+
     # Inference
     prediction, confidence, heatmap = predict_image_class(model=model_cell,
-                                                          image=image,
+                                                          image=img_array,
                                                           image_type=image_type,
                                                           gradcam_map=True)
 
@@ -273,9 +287,14 @@ def singlecell_file():
     if model_cell == None:
         model_cell = load_model(model_cell_name, custom_objects={"class2_recall": class2_recall})
     
+    # Preprocessing the image for prediciton
+    image_resized = image.resize((128,128), resample=Image.Resampling.BILINEAR)
+    img_array = img_to_array(image_resized)
+    img_array = preprocess_input_vgg19(img_array)
+
     # Inference
     prediction, confidence, heatmap = predict_image_class(model=model_cell,
-                                                          image=image,
+                                                          image=img_array,
                                                           image_type=image_type,
                                                           gradcam_map=True)
 
