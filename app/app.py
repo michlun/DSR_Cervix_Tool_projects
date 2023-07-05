@@ -210,7 +210,7 @@ def annotate_file():
     ystart = int(request.form['ystart'])
     yend = int(request.form['yend'])
     image_base64 = request.form['image']
-    print(image_base64)
+    # print(image_base64)
     # print('Xstart', xstart, 'Xend', xend, 'Ystart', ystart, 'Yend', yend)
 
     # crop the image based on the annotated region
