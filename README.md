@@ -1,4 +1,4 @@
-# temporary_projects
+# Cervix: Cervical Cancer Prediction Tool 
 
 Project Topic: Cervical Cancer Prediction Tool
 Summary: The project aims to develop a web application with a simple graphical interface
@@ -11,7 +11,7 @@ application will utilize a predictive model trained on relevant data to provide 
 probability. Additionally, the application could incorporate visualizations to compare
 the predicted probability with an optimal health condition through various charts and
 graphs.
-2. Tumor Detection from Images: Selecting the second button will load a page that
+2. Tumor Detection from Cell Images: Selecting the second button will load a page that
 allows users to upload one or more images. In this case, the application will employ a
 trained model to analyze the images and determine if they contain cervical cancer
 cells or not. The model's output will provide insights into the presence or absence of
