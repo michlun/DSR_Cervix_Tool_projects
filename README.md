@@ -33,3 +33,6 @@ intervention, and improve outcomes for individuals at risk of cervical cancer.
 The models are trained and validated using the following datasets:
 - Risk factors: https://archive.ics.uci.edu/dataset/383/cervical+cancer+risk+factors
 - Microscope cell images: https://www.cs.uoi.gr/~marina/sipakmed.html
+
+## Usage
+Please run app.py with Flask: flask --app app.py run
