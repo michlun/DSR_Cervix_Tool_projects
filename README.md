@@ -4,7 +4,7 @@ by Francesco Cocciro and Michele Lunelli
 Summary: The project aims to develop a web application with a simple graphical interface
 for cervical cancer risk assessment and evaluation of Pap test images.
 
-1. Cervical Cancer Risk Prediction: Upon selecting the first button, a page will be
+1. (Francesco Cocciro) Cervical Cancer Risk Prediction: Upon selecting the first button, a page will be
 loaded, prompting the user to fill in specific fields. This functionality allows users to
 predict their probability of developing cervical cancer based on the input values. The
 application will utilize a predictive model trained on relevant data to provide this
@@ -13,7 +13,8 @@ This generator will provide detailed explanations in natural language. By genera
 interpretable explanations, users will have a better understanding of the underlying
 reasons behind the model's decisions, promoting trust and transparency in the
 application.
-2. Cell Type Evaluation from Pap Slide Images: Selecting a second button will load a page that
+
+2. (Michele Lunelli) Cell Type Evaluation from Pap Slide Images: Selecting a second button will load a page that
 allows users to upload a microscope image, either of whole slides or single cells. The application will employ
 trained deep neural networks to analyze the image and determine if it contains cervical cancer
 cells or not. Single cells can also be selected from whole slide images for further evaulation.
@@ -38,6 +39,3 @@ The models are trained and validated using the following datasets:
 Please run app.py with Flask: flask --app app run
 
 The home page is then available at http://127.0.0.1:5000/index
-
-Note: the deep neural network models are currentily not in the repository due to the big size.
-The issue will be solved soon.
