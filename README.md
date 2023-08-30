@@ -36,6 +36,6 @@ The models are trained and validated using the following datasets:
 - Microscope cell images: https://www.cs.uoi.gr/~marina/sipakmed.html
 
 ## Usage
-Please run app.py with Flask: flask --app app run
+Please go in the app folder and run app.py with Flask: flask --app app run
 
 The home page is then available at http://127.0.0.1:5000/index
