@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
-{%block heading3 %}Infos{% endblock %}
+{%block heading3 %}Infos - Cell type prediction {% endblock %}
+
+{% block content %}
+<div class="my-container">
+    <div class="infos-container">
+        <body>
+            <h4> Please select either a whole slide or a single cell image. </h4>
+            <h4> Single cells can also be boxed in whole slide images. </h4>
+            <h4> GradCAM++ shows the image regions relevant for the prediction.</h4>
+    </div>
+</div>
+{% endblock %}
 
 {% block buttons %}
     <div class="button-container">
