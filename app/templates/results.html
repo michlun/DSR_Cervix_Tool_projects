@@ -62,7 +62,7 @@
           ctx.globalAlpha = 0.3;
           ctx.drawImage(heatmap, 0, 0, canvas.width, canvas.height);
         }
-      }
+      };
 
       var isDrawing = false;
       var startX, startY;
@@ -106,10 +106,8 @@
         document.getElementById('xend').value = xend;
         document.getElementById('ystart').value = ystart;
         document.getElementById('yend').value = yend;
-
-        // Uncomment the following line if you want to submit the form automatically after the crop
-        // document.getElementById('annotate-form').submit();
       });
+
       button_heatmap.addEventListener("click", toggle_heatmap);
     </script>
  </body>

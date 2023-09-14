@@ -1,30 +1,4 @@
-"""
-This script implements a Flask web application for a cervical cancer prediction model.
-
-The application uses Flask framework to define various routes that serve HTML templates and handle form submissions.
-The templates are rendered using the Jinja templating engine, and the predictions are made using the functions
-defined in the 'model_1_utils' module.
-
-Routes:
-- '/' or '/index.html': Renders the home page template ('index.html').
-- '/model_1.html': Renders the template for Model 1.
-- '/model_2.html': Renders the template for Model 2.
-- '/prediction.html': Renders the template for the prediction page.
-- '/predictdata': Handles the form submission for prediction. Accepts both GET and POST methods.
-                   If the method is GET, it renders the Model 1 template. If the method is POST,
-                   it retrieves the input data from the form, calls the 'get_input_values' function
-                   to extract the input values, and then calls the 'predict_cervical_cancer_risk' function
-                   to make a prediction using the extracted data. The prediction result is returned as a response.
-
-Note: The application assumes the existence of HTML templates ('index.html', 'model_1.html', 'model_2.html',
-      'prediction.html') and a module named 'model_1_utils' that contains the necessary functions.
-
-Author: [Francesco & Michele]
-"""
-
 from risk_prediction import model_1_utils as m1u
-from flask import Flask, render_template, url_for, request
-
 from flask import Flask, render_template, url_for, send_from_directory, request
 import base64
 from PIL import Image
@@ -33,20 +7,18 @@ from cell_detection.model_2_utils import predict_image_class, class_recall, clas
 from tensorflow import keras
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import img_to_array
-# from tensorflow.keras.applications.resnet_v2 import preprocess_input as preprocess_input_resnetv2
 from tensorflow.keras.applications.vgg19 import preprocess_input as preprocess_input_vgg19
 
 
-# Model files 
+# Cell detection model files 
 model_whole_name = 'cell_detection/vgg19_globavgpool_drop_1dense256_finetune_3.h5'
 model_cell_name = 'cell_detection/vgg19_128x128_globalavgpool_1dense128_finetune_3.h5'
+
 model_whole = None 
 model_cell = None
 
-
 app = Flask(__name__)
 app.static_folder = 'static'
-
 
 @app.route('/index')
 def get_app():
@@ -144,7 +116,10 @@ def predict_data():
 
 @app.route('/model-2', methods=['GET', 'POST'])
 def upload_file():
-    
+    """
+    Handles the upload of images (GET) and the prediction of whole slide images
+    """
+
     global model_whole_name
     global model_whole
 
@@ -152,16 +127,15 @@ def upload_file():
         # Get the uploaded image file
         image = request.files['image']
 
-        # convert image to base64 string
+        # Convert image to base64 string
         image_string = base64.b64encode(image.read()).decode('utf-8')
 
-        # convert to PIL format and compute scale factor
+        # Convert to PIL format and compute scale factor
         image = base64.b64decode(image_string)
         image = Image.open(io.BytesIO(image))
         scale_fac = image.size[0] / min(1024., image.size[0])
-        # print('Scale factor:', scale_fac)
 
-        # Setting image type for prediction and rendering and load the model if required:
+        # Setting image type for prediction and rendering and load the model if required
         image_type = 'Whole slide'
         if model_whole == None:
             model_whole = load_model(model_whole_name)
@@ -171,7 +145,7 @@ def upload_file():
         img_array = img_to_array(image_resized)
         img_array = preprocess_input_vgg19(img_array)
 
-        # inference
+        # Inference
         prediction, confidence, heatmap = predict_image_class(model=model_whole,
                                                               image=img_array,
                                                               image_type=image_type,
@@ -202,31 +176,32 @@ def upload_file():
 
 @app.route('/annotate', methods=['POST'])
 def annotate_file():
+    """
+    Handles the selection of an area in the whole slide images
+    and the prediction of the single cell
+    """
+
     global model_cell_name
     global model_cell
+
     # Retrieve the annotated region from the form submission
     xstart = int(request.form['xstart'])
     xend = int(request.form['xend'])
     ystart = int(request.form['ystart'])
     yend = int(request.form['yend'])
     image_base64 = request.form['image']
-    # print(image_base64)
-    # print('Xstart', xstart, 'Xend', xend, 'Ystart', ystart, 'Yend', yend)
 
-    # crop the image based on the annotated region
+    # Crop the image based on the annotated region
     image = base64.b64decode(image_base64)
     image = Image.open(io.BytesIO(image))
     width, height = image.size
-    # print('Uncropped image size:', image.size)
-    # new_width = xend - xstart
-    # new_height = yend - ystart
     image = image.crop((xstart, ystart, xend, yend))
-    # image = image.resize((new_width, new_height))
-    # print('Cropped image size:', image.size)
-    # Compute scale factor:
+
+    # Compute scale factor
     min_width = max(width, 128.)
     scale_fac = width/ min(1536., min_width)
-    # convert pillow image to base64 string
+    
+    # Convert pillow image to base64 string
     buffered = io.BytesIO()
     image.save(buffered, format="JPEG")
     image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
@@ -267,16 +242,20 @@ def annotate_file():
 
 @app.route('/singlecell', methods=['POST'])
 def singlecell_file():
+    """
+    Handles the single cell prediction
+    """
+    
     global model_cell_name
     global model_cell
     
     # Get the uploaded image file
     image = request.files['image']
 
-    # convert image to base64 string
+    # Convert image to base64 string
     image_string = base64.b64encode(image.read()).decode('utf-8')
 
-    # convert to PIL format and compute scale factor
+    # Convert to PIL format and compute scale factor
     image = base64.b64decode(image_string)
     image = Image.open(io.BytesIO(image))
     min_width = max(image.size[0], 128.)

@@ -1,0 +1,36 @@
+- **Age**: The age of the individual.
+- **Number of sexual partners**: The total number of sexual partners the individual has had.
+- **First sexual intercourse (age)**: The age at which the individual had their first sexual intercourse.
+- **Num of pregnancies**: The total number of pregnancies the individual has had.
+- **Smokes**: Indicates whether the individual smokes or not.
+- **Smokes (years)**: Indicates the number of years the individual has been smoking.
+- **Smokes (packs/year)**: Indicates the average number of packs of cigarettes the individual smokes per year.
+- **Hormonal Contraceptives**: Indicates whether the individual has used hormonal contraceptives or not.
+- **Hormonal Contraceptives (years)**: Indicates the total number of years the individual has used hormonal contraceptives.
+- **IUD**: Indicates whether the individual has used an intrauterine device (IUD) or not.
+- **IUD (years)**: Indicates the total number of years the individual has used an IUD.
+- **STDs**: Indicates whether the individual has had any sexually transmitted diseases (STDs) or not.
+- **STDs (number)**: Indicates the total number of different STDs the individual has had.
+- **STDs:condylomatosis**: Indicates whether the individual has had condylomatosis, a sexually transmitted infection caused by human papillomavirus (HPV).
+- **STDs:cervical condylomatosis**: Indicates whether the individual has had cervical condylomatosis, a type of HPV infection affecting the cervix.
+- **STDs:vaginal condylomatosis**: Indicates whether the individual has had vaginal condylomatosis, a type of HPV infection affecting the vagina.
+- **STDs:vulvo-perineal condylomatosis**: Indicates whether the individual has had vulvo-perineal condylomatosis, a type of HPV infection affecting the vulva and perineal area.
+- **STDs:syphilis**: Indicates whether the individual has had syphilis, a bacterial infection transmitted through sexual contact.
+- **STDs:pelvic inflammatory disease**: Indicates whether the individual has had pelvic inflammatory disease, an infection of the female reproductive organs.
+- **STDs:genital herpes**: Indicates whether the individual has had genital herpes, a viral infection transmitted through sexual contact.
+- **STDs:molluscum contagiosum**: Indicates whether the individual has had molluscum contagiosum, a viral skin infection transmitted through close contact.
+- **STDs:AIDS**: Indicates whether the individual has had AIDS (Acquired Immunodeficiency Syndrome), a late stage of HIV infection.
+- **STDs:HIV**: Indicates whether the individual has had HIV (Human Immunodeficiency Virus), a viral infection that attacks the immune system.
+- **STDs:Hepatitis B**: Indicates whether the individual has had Hepatitis B, a viral infection affecting the liver.
+- **STDs:HPV**: Indicates whether the individual has had HPV (Human Papillomavirus), a common sexually transmitted infection.
+- **STDs: Number of diagnosis**: The total number of STD diagnoses the individual has received.
+- **STDs: Time since first diagnosis**: The time elapsed since the individual's first STD diagnosis.
+- **STDs: Time since last diagnosis**: The time elapsed since the individual's most recent STD diagnosis.
+- **Dx:Cancer**: Indicates whether the individual has been diagnosed with cervical cancer.
+- **Dx:CIN**: Indicates whether the individual has been diagnosed with cervical intraepithelial neoplasia (CIN), a precancerous condition of the cervix.
+- **Dx:HPV**: Indicates whether the individual has been diagnosed with HPV infection.
+- **Dx**: Indicates whether the individual has been diagnosed with any cervical disease.
+- **Hinselmann: target variable**: The target variable indicating the presence or absence of cervical cancer according to the Hinselmann criterion.
+- **Schiller: target variable**: The target variable indicating the presence or absence of cervical cancer according to the Schiller criterion.
+- **Cytology: target variable**: The target variable indicating the presence or absence of cervical cancer according to cytology (Pap smear) results.
+- **Biopsy: target variable**: The target variable indicating the presence or absence of cervical cancer based on biopsy results.
