@@ -4,11 +4,7 @@
 
 {% block content %}
 
-    <div class="two-column-content">
-        <div class="column">
-            <img class="rounded float-start" src="/static/img/cell.jpg">
-        </div>
-        <div class="column">
+    <div class="column">
             <p>
             <h3> Upload a whole slide image</h3>
             <form action="/model-2" method="post" enctype="multipart/form-data">
@@ -23,7 +19,6 @@
                 <input type="submit" value="Upload">
             </form>
             </p>
-        </div>
     </div>
 
 {% endblock %}
