@@ -40,7 +40,8 @@ Please go in the app folder and run app.py with Flask: flask --app app run
 
 The home page is then available at http://127.0.0.1:5000/index
 
-## Note (Michele Lunelli)
+## Note
+### (Michele Lunelli)
 
 The cell detection part of the tool has also a Streamlit interface:
 
