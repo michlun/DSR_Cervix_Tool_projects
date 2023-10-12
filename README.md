@@ -1,7 +1,16 @@
 # Cervix: Cervical Cancer Prediction Tool 
 by Francesco Cocciro and Michele Lunelli
 
-Summary: The project aims to develop a web application with a simple graphical interface
+## Note
+
+The cell detection part (Michele Lunelli) of the tool has also a Streamlit interface:
+
+https://github.com/michlun/Cervical_cancer_cell_detection
+
+https://cancercell.streamlit.app
+
+## Summary
+The project aims to develop a web application with a simple graphical interface
 for cervical cancer risk assessment and evaluation of Pap test images.
 
 1. (Francesco Cocciro) Cervical Cancer Risk Prediction: Upon selecting the first button, a page will be
@@ -40,12 +49,3 @@ Please go in the app folder and run app.py with Flask: flask --app app run
 
 The home page is then available at http://127.0.0.1:5000/index
 
-## Note
-
-The cell detection part of the tool has also a Streamlit interface:
-
-https://github.com/michlun/Cervical_cancer_cell_detection
-
-https://cancercell.streamlit.app
-
-(Michele Lunelli)
